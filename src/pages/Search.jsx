@@ -15,13 +15,18 @@ export default function Search() {
   const [share, setShare] = useState(false);
   const shareIdRef = useRef(null);
   const prevScrollPos = useRef(null);
-  const { shuffleSearchResults, data, saved } = useContext(DataContext);
+  const { shuffleSearchResults, data, saved, carouselsLoaded, dispatchLoaded } =
+    useContext(DataContext);
 
   let [filteredData, setFilterData] = useState([]);
   // shuffleSearchResults ? data[selected].data : data[selected].data;
   // shuffleSearchResults ? shuffleArray(data) : data
-  const { loadedCarousels, setLoadedCarousels, handleCarouselSwipe, setTotal } =
-    useCarousel({ total: filteredData.length });
+  const { handleCarouselSwipe, setTotal } = useCarousel({
+    total: filteredData.length,
+    type: "search",
+    dispatchLoaded,
+    carouselsLoaded,
+  });
 
   let searchData = [];
   // selected == -1 ? data.flatMap((d) => d.data) : data[selected].data;
@@ -55,6 +60,8 @@ export default function Search() {
   }, []);
 
   useEffect(() => {
+    dispatchLoaded({ type: "search", payload: 4 });
+
     async function wait(time) {
       setFilterData([]);
       await new Promise((resolve, reject) => {
@@ -98,7 +105,6 @@ export default function Search() {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
-    setLoadedCarousels(4);
     return array;
   }
 
@@ -113,7 +119,7 @@ export default function Search() {
             setFinalQuery(query);
             // navigate(`/search/${selected}/${query}`);
             // if (query != e.target.query.value) setQuery(e.target.query.value);
-            setLoadedCarousels(4);
+            dispatchLoaded({ type: "saved", payload: 4 });
           }}
         >
           {
@@ -137,7 +143,7 @@ export default function Search() {
         </form>
       )}
       <div className="section-carousels section">
-        {filteredData.slice(0, loadedCarousels).map((item, index) => {
+        {filteredData.slice(0, carouselsLoaded.search).map((item, index) => {
           return (
             <Carousel
               key={index}

@@ -5,8 +5,16 @@ import { DataContext } from "../context/DataContext";
 import useCarousel from "../../hooks/useCarousel";
 import Share from "../components/Share";
 import { createPortal } from "react-dom";
-export default function AiRemover() {
-  const { shuffleSaved, data, saved } = useContext(DataContext);
+export default function Saved({ setShowBars }) {
+  const {
+    shuffleSaved,
+    data,
+    saved,
+    carouselsLoaded,
+    dispatchLoaded,
+    scrollPos,
+    persistantScroll,
+  } = useContext(DataContext);
   const [finalData, setFinalData] = useState([]);
   const [share, setShare] = useState(false);
   const shareIdRef = useRef(null);
@@ -17,6 +25,9 @@ export default function AiRemover() {
   const howToLoadData = {
     initial: 5,
     load: 4,
+    type: "saved",
+    carouselsLoaded,
+    dispatchLoaded,
     swipeOnLast: 3,
     total: savedData.length,
   };
@@ -40,6 +51,21 @@ export default function AiRemover() {
     };
   }, []);
 
+  useEffect(() => {
+    async function wait() {
+      await new Promise((res, rej) => {
+        setTimeout(() => {
+          scrollTo({ top: scrollPos.saved, behavior: "instant" });
+          res();
+        }, 35);
+      });
+      setTimeout(() => {
+        setShowBars(true);
+      }, 25);
+    }
+    if (persistantScroll) wait();
+  }, []);
+
   const openOverlay = () => {
     document.getElementById("overlay").classList.remove("hidden");
   };
@@ -52,13 +78,12 @@ export default function AiRemover() {
     shareIdRef.current = obj;
   };
 
-  const { loadedCarousels, setLoadedCarousels, handleCarouselSwipe } =
-    useCarousel(howToLoadData);
+  const { handleCarouselSwipe } = useCarousel(howToLoadData);
 
   return (
     <div className="saved section">
       <div className="section-carousels">
-        {finalData.slice(0, loadedCarousels).map((item, index) => (
+        {finalData.slice(0, carouselsLoaded.saved).map((item, index) => (
           <div key={index}>
             <Carousel
               key={index}

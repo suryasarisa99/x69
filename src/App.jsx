@@ -8,6 +8,7 @@ import Settings from "./pages/Settings";
 import Search from "./pages/Search";
 import Share from "./components/Share";
 import Shared from "./pages/Shared";
+import LargeCarousel from "./components/LargeCarousel";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route path="/shared/:id" element={<Shared />} />
       <Route path="/share" element={<Share />} />
       <Route path="/" element={<X />} />
+      <Route path="/large/:id" element={<LargeCarousel />} />
     </Routes>
   );
 }

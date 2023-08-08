@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { DataContext } from "../context/DataContext";
 import { useNavigate } from "react-router-dom";
 import Switch from "../components/Switch";
+import { GrLinkNext } from "react-icons/gr";
 
 export default function Settings() {
   const {
@@ -18,7 +19,10 @@ export default function Settings() {
     shuffleSaved,
     setShuffleSaved,
     toggles,
+    persistantScroll,
+    setPersistantScroll,
   } = useContext(DataContext);
+  const navigate = useNavigate();
   return (
     <div className="settings">
       <h1>Settings</h1>
@@ -66,6 +70,29 @@ export default function Settings() {
             stateFun={setShuffleSaved}
             saveAs="shuffleSaved"
           />
+        </div>
+      </div>
+
+      <div className="section">
+        <h3>Persistant</h3>
+        <div className="toggle">
+          <p>Persistant scroll</p>
+          <Switch
+            state={persistantScroll}
+            stateFun={setPersistantScroll}
+            saveAs="persistantScroll"
+          />
+        </div>
+      </div>
+      <div className="section">
+        <div className="link">
+          Go To Previous Version Of X69{" "}
+          <i
+            className="icon-outer"
+            onClick={() => open("https://6x9.vercel.app")}
+          >
+            <GrLinkNext className="icon" />
+          </i>
         </div>
       </div>
     </div>

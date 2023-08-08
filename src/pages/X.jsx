@@ -16,8 +16,8 @@ export default function X() {
 
   const handleScroll = () => {
     const currentScrollPos = window.scrollY;
-    console.log(`${prevScrollPos.current}  ${currentScrollPos}`);
-    console.log(currentScrollPos < prevScrollPos.current);
+    // console.log(`${prevScrollPos.current}  ${currentScrollPos}`);
+    // console.log(currentScrollPos < prevScrollPos.current);
     setShowBars(currentScrollPos < prevScrollPos.current);
     prevScrollPos.current = currentScrollPos;
   };
@@ -43,7 +43,8 @@ export default function X() {
     case "/x/settings":
       searchType = "none";
       break;
-    default:
+    case "/":
+    case "/x/home":
       searchType = "home";
   }
 
@@ -51,10 +52,10 @@ export default function X() {
     <div className="x">
       {showBars && <SearchBar type={searchType} />}
       <Routes>
+        <Route path="*" element={<Home setShowBars={setShowBars} />} />
         <Route path="/videos" element={<Videos />} />
-        <Route path="/saved" element={<Saved />} />
+        <Route path="/saved" element={<Saved setShowBars={setShowBars} />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="*" element={<Home />} />
       </Routes>
       {showBars && <BottomNav />}
     </div>

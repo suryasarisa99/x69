@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 let DataContext = createContext();
@@ -11,7 +11,6 @@ export default function DataProvider({ children }) {
   const [timeOut, setTimeOut] = useState(false);
   const [tempLogin, setTempLogin] = useState(false);
   const [wrongPass, setWrongPass] = useState(false);
-  const [data, setData] = useState(datax);
   const [saved, setSaved] = useState(
     JSON.parse(localStorage.getItem("saved")) || []
   );
@@ -38,10 +37,33 @@ export default function DataProvider({ children }) {
   let [shuffleSearchResults, setShuffleSearchResults] = useState(
     toggles?.shuffleResults !== undefined ? toggles.shuffleResults : false
   );
+  let [persistantScroll, setPersistantScroll] = useState(
+    toggles?.persistantScroll !== undefined ? toggles.persistantScroll : false
+  );
+  const [data, setData] = useState(datax);
+  // let [finalData, setFinalData] = useState(
+  //   shuffleSection ? shuffleArray(data) : data
+  // );
+  const reducer = (state, action) => {
+    return { ...state, [action.type]: action.payload };
+  };
+  const [scrollPos, dispatch] = useReducer(reducer, {
+    home: 0,
+    saved: 0,
+    search: 0,
+  });
+  const [carouselsLoaded, dispatchLoaded] = useReducer(reducer, {
+    home: 5,
+    saved: 4,
+    search: 4,
+  });
 
   useEffect(() => {
     localStorage.setItem("saved", JSON.stringify(saved));
   }, [saved]);
+  useEffect(() => {
+    setData((data) => shuffleArray(data));
+  }, []);
 
   const navigate = useNavigate();
   // useEffect(() => {
@@ -156,6 +178,12 @@ export default function DataProvider({ children }) {
         toggles,
         shuffleSaved,
         setShuffleSaved,
+        dispatch,
+        scrollPos,
+        carouselsLoaded,
+        dispatchLoaded,
+        persistantScroll,
+        setPersistantScroll,
       }}
     >
       {children}
@@ -164,3 +192,11 @@ export default function DataProvider({ children }) {
 }
 
 export { DataContext };
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  // setLoadedCarousels(4);
+  return array;
+}

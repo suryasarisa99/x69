@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { DataContext } from "../context/DataContext";
+import { useNavigate } from "react-router-dom";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
-import { BsShareFill } from "react-icons/bs";
+import { BsShareFill, BsArrowsFullscreen } from "react-icons/bs";
 import "./style.scss";
 export default function Carousel({
   images: imagesX,
@@ -13,9 +14,12 @@ export default function Carousel({
   removeCarouselFromSaved,
 }) {
   let [pos, setPos] = useState(0);
-  const { slide, lastImg, reverseOrder, saved, setSaved } =
+  const navigate = useNavigate();
+  const { slide, lastImg, reverseOrder, saved, setSaved, scrollPos, dispatch } =
     useContext(DataContext);
   let [isSaved, setIsSaved] = useState(saved.includes(id));
+  let [temp, setTemp] = useState(0);
+  let [largeCarousel, setLargeCarousel] = useState(false);
   let limit = 50;
 
   let [images, setImages] = useState(
@@ -26,6 +30,48 @@ export default function Carousel({
 
   const start = useRef(null);
   const startY = useRef(null);
+  const imgsRef = useRef(null);
+
+  useEffect(() => {
+    imgsRef.current.querySelectorAll("img").forEach((img) => {
+      img.addEventListener("load", () => {
+        setTemp(img.height);
+        if (img.height > 700) {
+          setLargeCarousel(true);
+          img.style.height = "700px";
+          img.style.objectFit = "cover";
+          imgsRef.current.classList.add("large-carousel");
+          img.classList.add("large-img");
+        }
+      });
+    });
+  }, []);
+  // useEffect(() => {
+  //   const handleImageLoad = (img) => {
+  //     setTemp(img.height);
+  //     if (img.height > 750) {
+  //       setLargeCarousel(true);
+  //       imgsRef.current.classList.add("large-carousel");
+  //       img.classList.add("large-img");
+  //     }
+  //   };
+
+  //   const imgLoadListeners = [];
+
+  //   imgsRef.current.querySelectorAll("img").forEach((img) => {
+  //     const loadListener = () => handleImageLoad(img);
+  //     img.addEventListener("load", loadListener);
+  //     imgLoadListeners.push({ img, loadListener });
+  //   });
+
+  //   return () => {
+  //     imgLoadListeners.forEach(({ img, loadListener }) => {
+  //       loadListener();
+  //       img.removeEventListener("load", loadListener);
+  //     });
+  //   };
+  // }, []);
+  // function handleImgLoad() {}
 
   if (!images || images.length == 0) return null;
   const handleTS = (e) => {
@@ -39,8 +85,8 @@ export default function Carousel({
     const deltaY = e.targetTouches[0].clientY - startY.current;
     if (Math.abs(deltaY) > 50 && Math.abs(deltaY) > Math.abs(deltaX)) return;
     // console.log("move");
-    if (selected == 0 && deltaX > 0) return;
-    else if (selected == images.length - 1 && deltaX < 0) return;
+    // if (selected == 0 && deltaX > 0) return;
+    // else if (selected == images.length - 1 && deltaX < 0) return;
     setPos(deltaX);
   };
   const handleTE = () => {
@@ -71,14 +117,13 @@ export default function Carousel({
   let calc = `calc(${pos}px + -${selected}00%)`;
 
   return (
-    <div className="carousel" onTouchStart={onSwipe}>
-      <div className="sep"></div>
+    <div className="carousel" onTouchStart={onSwipe} ref={imgsRef}>
       <div className="images-container">
         {images.map((image, index) => {
           return (
-            // <div key={index} className="sample">
+            // <div key={index + id} className="img-box">
             <img
-              key={index}
+              key={index + id}
               src={image}
               alt="man"
               style={{
@@ -91,7 +136,7 @@ export default function Carousel({
               onTouchEnd={handleTE}
               loading="lazy"
             />
-            // </div>
+            //</div>
           );
         })}
         {images.length > 1 && (
@@ -112,6 +157,15 @@ export default function Carousel({
       <div className="top">
         <div className="name">{name}</div>
         <div className="icons">
+          {largeCarousel && (
+            <BsArrowsFullscreen
+              className="full-screen-icon"
+              onClick={() => {
+                dispatch({ type: "home", payload: window.scrollY });
+                navigate("/large/" + id);
+              }}
+            />
+          )}
           <BsShareFill
             className="share-icon"
             onClick={() => onShare({ id, name })}
