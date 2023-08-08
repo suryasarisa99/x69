@@ -37,25 +37,24 @@ export default function X() {
 
   let searchType = "";
   switch (location.pathname) {
-    case "/x/home":
-      searchType = "home";
-      break;
     case "/x/saved":
       searchType = "saved";
       break;
     case "/x/settings":
       searchType = "none";
       break;
+    default:
+      searchType = "home";
   }
 
   return (
     <div className="x">
       {showBars && <SearchBar type={searchType} />}
       <Routes>
-        <Route path="/home" element={<Home />} />
         <Route path="/videos" element={<Videos />} />
         <Route path="/saved" element={<Saved />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="*" element={<Home />} />
       </Routes>
       {showBars && <BottomNav />}
     </div>

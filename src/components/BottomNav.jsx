@@ -23,7 +23,10 @@ export default function BottomNav() {
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
-  const Home = location.pathname == "/x/home" ? AiFillHome : AiOutlineHome;
+  const Home =
+    location.pathname == "/" || location.pathname == "/x/home"
+      ? AiFillHome
+      : AiOutlineHome;
   const Videos = location.pathname == "/x/videos" ? BsPlayBtnFill : BsPlayBtn;
   const Saved = location.pathname == "/x/saved" ? FaBookmark : FaRegBookmark;
   const Settings = location.pathname == "/x/settings" ? BsGearFill : BsGear;
