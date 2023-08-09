@@ -3,6 +3,7 @@ import { DataContext } from "../context/DataContext";
 import { useNavigate } from "react-router-dom";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { BsShareFill, BsArrowsFullscreen } from "react-icons/bs";
+import { motion } from "framer-motion";
 import "./style.scss";
 export default function Carousel({
   images: imagesX,
@@ -117,7 +118,7 @@ export default function Carousel({
   let calc = `calc(${pos}px + -${selected}00%)`;
 
   return (
-    <div className="carousel" onTouchStart={onSwipe} ref={imgsRef}>
+    <div className="carousel1 carousel" onTouchStart={onSwipe} ref={imgsRef}>
       <div className="images-container">
         {images.map((image, index) => {
           return (
@@ -170,11 +171,13 @@ export default function Carousel({
             className="share-icon"
             onClick={() => onShare({ id, name })}
           />
-          {isSaved ? (
-            <FaBookmark className="bookmark" onClick={removeBookMark} />
-          ) : (
-            <FaRegBookmark className="bookmark" onClick={addBookMark} />
-          )}
+          <motion.div initial={{ scale: 1 }} whileTap={{ scale: 1.5 }}>
+            {isSaved ? (
+              <FaBookmark className="bookmark" onClick={removeBookMark} />
+            ) : (
+              <FaRegBookmark className="bookmark" onClick={addBookMark} />
+            )}
+          </motion.div>
         </div>
       </div>
     </div>

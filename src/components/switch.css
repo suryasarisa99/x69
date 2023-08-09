@@ -54,3 +54,10 @@
 .settings {
   margin: 30px;
 }
+
+.switch.disabled .thumb {
+  background-color: gray;
+}
+.switch.disabled input[type="checkbox"]:checked + .track {
+  background-color: #464646;
+}

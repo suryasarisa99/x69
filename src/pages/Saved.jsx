@@ -1,5 +1,6 @@
 import { useEffect, useContext, useState, useRef, createRef } from "react";
-import Carousel from "../components/Carousel";
+import Carousel1 from "../components/Carousel1";
+import Carousel2 from "../components/Carousel2";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 import useCarousel from "../../hooks/useCarousel";
@@ -13,6 +14,7 @@ export default function Saved({ setShowBars }) {
     carouselsLoaded,
     dispatchLoaded,
     scrollPos,
+    isCarousel2,
     persistantScroll,
   } = useContext(DataContext);
   const [finalData, setFinalData] = useState([]);
@@ -85,19 +87,35 @@ export default function Saved({ setShowBars }) {
       <div className="section-carousels">
         {finalData.slice(0, carouselsLoaded.saved).map((item, index) => (
           <div key={index}>
-            <Carousel
-              key={index}
-              type={selected}
-              removeCarouselFromSaved={(id) => {
-                finalData.splice(id, 1);
-                setFinalData([...finalData]);
-              }}
-              onShare={showShare}
-              id={item.id}
-              images={item?.images}
-              name={item?.title?.replace("-", " ").replace("?", "")}
-              onSwipe={() => handleCarouselSwipe(index)}
-            />
+            {isCarousel2 ? (
+              <Carousel2
+                key={index}
+                type={selected}
+                removeCarouselFromSaved={(id) => {
+                  finalData.splice(id, 1);
+                  setFinalData([...finalData]);
+                }}
+                onShare={showShare}
+                id={item.id}
+                images={item?.images}
+                name={item?.title?.replace("-", " ").replace("?", "")}
+                onSwipe={() => handleCarouselSwipe(index)}
+              />
+            ) : (
+              <Carousel1
+                key={index}
+                type={selected}
+                removeCarouselFromSaved={(id) => {
+                  finalData.splice(id, 1);
+                  setFinalData([...finalData]);
+                }}
+                onShare={showShare}
+                id={item.id}
+                images={item?.images}
+                name={item?.title?.replace("-", " ").replace("?", "")}
+                onSwipe={() => handleCarouselSwipe(index)}
+              />
+            )}
           </div>
         ))}
       </div>

@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState, useRef, createRef } from "react";
-import Carousel from "./Carousel";
+import Carousel from "./Carousel1";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 import useCarousel from "../../hooks/useCarousel";

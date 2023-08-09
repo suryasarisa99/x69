@@ -16,6 +16,7 @@ export default function Carousel({
     useContext(DataContext);
   let [isSaved, setIsSaved] = useState(saved.includes(id));
   let limit = 50;
+  const imgConRef = useRef(null)
 
   let [images, setImages] = useState(
     reverseOrder ? [...imagesX].reverse() : imagesX
@@ -23,7 +24,15 @@ export default function Carousel({
 
   let [selected, setSelected] = useState(lastImg ? images.length - 1 : 0);
 
+  useEffect(()=>{
+    function handleScroll(){
+        
+    }
+  },[])
+
   if (!images || images.length == 0) return null;
+
+
 
   const onDotClick = (index) => {
     setSelected(index);
@@ -41,9 +50,11 @@ export default function Carousel({
   //   let calc = `calc(${pos}px + -${selected}00%)`;
 
   return (
-    <div className="carousel2" onTouchStart={onSwipe}>
+    <div className="carousel carousel2" onTouchStart={onSwipe}>
       <div className="sep"></div>
-      <div className="images-container">
+      <div className="images-container" ref={imgConRef}
+         onScroll={}
+      >
         {images.map((image, index) => {
           return (
             <div key={index + id} className="img-box">
@@ -51,7 +62,7 @@ export default function Carousel({
             </div>
           );
         })}
-        {/* {images.length > 1 && (
+        {images.length > 1 && (
           <div className="dots">
             {images.map((_, index) => {
               return (
@@ -64,9 +75,9 @@ export default function Carousel({
               );
             })}
           </div>
-        )} */}
+        )}
       </div>
-      {/* <div className="top">
+      <div className="top">
         <div className="name">{name}</div>
         <div className="icons">
           <BsShareFill
@@ -79,7 +90,7 @@ export default function Carousel({
             <FaRegBookmark className="bookmark" onClick={addBookMark} />
           )}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

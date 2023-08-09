@@ -6,7 +6,8 @@ import {
   createRef,
   useLayoutEffect,
 } from "react";
-import Carousel from "../components/Carousel";
+import Carousel1 from "../components/Carousel1";
+import Carousel2 from "../components/Carousel2";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 import useCarousel from "../../hooks/useCarousel";
@@ -23,6 +24,7 @@ export default function Home({ setShowBars }) {
     carouselsLoaded,
     dispatchLoaded,
     persistantScroll,
+    isCarousel2,
   } = useContext(DataContext);
   const [finalData, setFinalData] = useState([]);
   const [share, setShare] = useState(false);
@@ -43,6 +45,7 @@ export default function Home({ setShowBars }) {
   };
 
   const { handleCarouselSwipe } = useCarousel(howToLoadData);
+
   useEffect(() => {
     // dispatch(s)
     async function wait(time) {
@@ -127,23 +130,31 @@ export default function Home({ setShowBars }) {
     <div className="x section">
       {/* <p>loaded carousels: {loadedCarousels}</p> */}
       <div className="section-carousels">
-        {finalData.slice(0, carouselsLoaded.home).map((item, index) => (
-          <div key={index}>
-            <Carousel
-              key={index}
-              type={selected}
-              removeCarouselFromSaved={(id) => {
-                finalData.splice(id, 1);
-                setFinalData([...finalData]);
-              }}
-              onShare={showShare}
-              id={item.id}
-              images={item?.images}
-              name={item?.title?.replace("-", " ").replace("?", "")}
-              onSwipe={() => handleCarouselSwipe(index)}
-            />
-          </div>
-        ))}
+        {finalData
+          .slice(0, carouselsLoaded.home)
+          .map((item, index) =>
+            isCarousel2 ? (
+              <Carousel2
+                key={index}
+                type={selected}
+                onShare={showShare}
+                id={item.id}
+                images={item?.images}
+                name={item?.title?.replace("-", " ").replace("?", "")}
+                onSwipe={() => handleCarouselSwipe(index)}
+              />
+            ) : (
+              <Carousel1
+                key={index}
+                type={selected}
+                onShare={showShare}
+                id={item.id}
+                images={item?.images}
+                name={item?.title?.replace("-", " ").replace("?", "")}
+                onSwipe={() => handleCarouselSwipe(index)}
+              />
+            )
+          )}
       </div>
       {share &&
         createPortal(

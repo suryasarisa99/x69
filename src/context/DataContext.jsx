@@ -40,6 +40,9 @@ export default function DataProvider({ children }) {
   let [persistantScroll, setPersistantScroll] = useState(
     toggles?.persistantScroll !== undefined ? toggles.persistantScroll : false
   );
+  let [isCarousel2, setIsCarousel2] = useState(
+    toggles?.carousel2 !== undefined ? toggles.carousel2 : false
+  );
   const [data, setData] = useState(datax);
   // let [finalData, setFinalData] = useState(
   //   shuffleSection ? shuffleArray(data) : data
@@ -184,6 +187,8 @@ export default function DataProvider({ children }) {
         dispatchLoaded,
         persistantScroll,
         setPersistantScroll,
+        isCarousel2,
+        setIsCarousel2,
       }}
     >
       {children}

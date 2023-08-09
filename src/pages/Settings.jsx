@@ -21,6 +21,8 @@ export default function Settings() {
     toggles,
     persistantScroll,
     setPersistantScroll,
+    isCarousel2,
+    setIsCarousel2,
   } = useContext(DataContext);
   const navigate = useNavigate();
   return (
@@ -30,11 +32,21 @@ export default function Settings() {
         <h3>Carousel</h3>
         <div className="toggle">
           <p>Slide Animation</p>
-          <Switch state={slide} stateFun={setSlide} saveAs="slide" />
+          <Switch
+            state={slide}
+            stateFun={setSlide}
+            saveAs="slide"
+            disabledWith={isCarousel2 ? true : undefined}
+          />
         </div>
         <div className="toggle">
           <p>Set to Last Image</p>
-          <Switch state={lastImg} stateFun={setLastImg} saveAs="lastImg" />
+          <Switch
+            state={lastImg}
+            stateFun={setLastImg}
+            saveAs="lastImg"
+            disabledWith={isCarousel2 ? false : undefined}
+          />
         </div>
         <div className="toggle">
           <p>Reverse Images</p>
@@ -42,6 +54,14 @@ export default function Settings() {
             state={reverseOrder}
             stateFun={setReverseOrder}
             saveAs="reverse"
+          />
+        </div>
+        <div className="toggle">
+          <p>Use Carousel2</p>
+          <Switch
+            state={isCarousel2}
+            stateFun={setIsCarousel2}
+            saveAs="carousel2"
           />
         </div>
       </div>
@@ -84,6 +104,7 @@ export default function Settings() {
           />
         </div>
       </div>
+
       <div className="section">
         <div className="link">
           Go To Previous Version Of X69{" "}

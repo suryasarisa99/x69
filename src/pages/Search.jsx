@@ -2,7 +2,8 @@ import { useEffect, useState, useContext, useRef } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 import { FaChevronLeft } from "react-icons/fa";
-import Carousel from "../components/Carousel";
+import Carousel1 from "../components/Carousel1";
+import Carousel2 from "../components/Carousel2";
 import Share from "../components/Share";
 import { createPortal } from "react-dom";
 import useCarousel from "../../hooks/useCarousel";
@@ -15,8 +16,14 @@ export default function Search() {
   const [share, setShare] = useState(false);
   const shareIdRef = useRef(null);
   const prevScrollPos = useRef(null);
-  const { shuffleSearchResults, data, saved, carouselsLoaded, dispatchLoaded } =
-    useContext(DataContext);
+  const {
+    shuffleSearchResults,
+    data,
+    saved,
+    carouselsLoaded,
+    dispatchLoaded,
+    isCarousel2,
+  } = useContext(DataContext);
 
   let [filteredData, setFilterData] = useState([]);
   // shuffleSearchResults ? data[selected].data : data[selected].data;
@@ -144,8 +151,17 @@ export default function Search() {
       )}
       <div className="section-carousels section">
         {filteredData.slice(0, carouselsLoaded.search).map((item, index) => {
-          return (
-            <Carousel
+          return isCarousel2 ? (
+            <Carousel2
+              key={index}
+              images={item?.images}
+              name={item?.title}
+              onShare={showShare}
+              id={item.id}
+              onSwipe={() => handleCarouselSwipe(index)}
+            />
+          ) : (
+            <Carousel1
               key={index}
               images={item?.images}
               name={item?.title}

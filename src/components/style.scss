@@ -9,71 +9,49 @@ body {
 }
 
 .carousel {
-  display: flex;
-  padding: 0;
-  padding-top: 4px;
-  justify-content: center;
-  overflow: hidden;
-  margin: 0;
-
-  margin-bottom: 15px;
-  align-items: center;
-  // background-color: red;
   background-color: black;
+  margin-bottom: 15px;
   border-radius: 15px;
-
-  display: flex;
-  flex-direction: column;
-
-  &.large-carousel {
-    img {
-      // height: 650px;
-      // object-fit: cover;
-    }
-  }
+  padding-top: 4px;
+  user-select: none;
 
   img {
-    padding: 0 6px;
-    // object-fit: cover;
     width: 100%;
     border-radius: 18px;
-    // max-height: 650px;
-
+    user-select: none;
     flex-shrink: 0;
+    padding: 0 6px;
   }
-
-  .images-container {
-    display: flex;
-    position: relative;
-    align-items: center;
-    border-radius: 15px;
-  }
-
-  .large-con {
-    // background-color: red;
-    // padding: 0 50px;
-    // height: 700px;
-    // object-fit: cover;
-  }
-
   .name {
     font-size: 16px;
     color: rgb(203, 203, 203);
     padding: 5px;
     text-align: center;
   }
+
+  .images-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-radius: 15px;
+  }
+}
+
+.carousel1 {
+  overflow: hidden;
 }
 
 .carousel2 {
+  position: relative;
   .images-container {
     display: flex;
     align-items: center;
     overflow-x: scroll;
     gap: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
     scroll-snap-type: x mandatory;
+    position: static;
 
-    // Disable Scroll Bar
     scrollbar-width: none;
     &::-webkit-scrollbar {
       display: none;
@@ -85,21 +63,20 @@ body {
 
       display: flex;
       align-items: center;
-
-      // height: 400px;
-
-      // background-color: gray;
       scroll-snap-align: start;
-      padding: 10px;
+      scroll-snap-stop: always;
+      // padding: 10px;
     }
 
     img {
       object-fit: cover;
       width: 100%;
+      border-radius: 18px;
     }
+  }
 
-    // @media {
-    // }
+  .dots {
+    bottom: 52px;
   }
 }
 .dots {
