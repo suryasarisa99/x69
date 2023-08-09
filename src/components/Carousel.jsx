@@ -85,8 +85,8 @@ export default function Carousel({
     const deltaY = e.targetTouches[0].clientY - startY.current;
     if (Math.abs(deltaY) > 50 && Math.abs(deltaY) > Math.abs(deltaX)) return;
     // console.log("move");
-    // if (selected == 0 && deltaX > 0) return;
-    // else if (selected == images.length - 1 && deltaX < 0) return;
+    if (selected == 0 && deltaX > 0) return;
+    else if (selected == images.length - 1 && deltaX < 0) return;
     setPos(deltaX);
   };
   const handleTE = () => {

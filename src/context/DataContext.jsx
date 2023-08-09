@@ -62,7 +62,7 @@ export default function DataProvider({ children }) {
     localStorage.setItem("saved", JSON.stringify(saved));
   }, [saved]);
   useEffect(() => {
-    setData((data) => shuffleArray(data));
+    setData((data) => (shuffleSection ? shuffleArray(data) : data));
   }, []);
 
   const navigate = useNavigate();

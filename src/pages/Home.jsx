@@ -51,7 +51,7 @@ export default function Home({ setShowBars }) {
       setFinalData(shuffleSection ? shuffleArray([...savedData]) : savedData);
     }
 
-    wait(0.1);
+    // wait(0.1);
 
     document.getElementById("overlay").addEventListener("click", removeOverlay);
     window.addEventListener("scroll", removeOverlay);
