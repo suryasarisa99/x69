@@ -48,10 +48,11 @@ export default function Home({ setShowBars }) {
     async function wait(time) {
       setFinalData([]);
       await new Promise((res, rej) => setTimeout(res, time));
-      setFinalData(shuffleSection ? shuffleArray([...savedData]) : savedData);
+      setFinalData(data);
+      // setFinalData(shuffleSection ? shuffleArray([...savedData]) : savedData);
     }
 
-    // wait(0.1);
+    wait(0.1);
 
     document.getElementById("overlay").addEventListener("click", removeOverlay);
     window.addEventListener("scroll", removeOverlay);
