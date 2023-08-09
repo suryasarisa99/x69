@@ -16,7 +16,7 @@ export default function Carousel({
     useContext(DataContext);
   let [isSaved, setIsSaved] = useState(saved.includes(id));
   let limit = 50;
-  const imgConRef = useRef(null)
+  const imgConRef = useRef(null);
 
   let [images, setImages] = useState(
     reverseOrder ? [...imagesX].reverse() : imagesX
@@ -24,15 +24,7 @@ export default function Carousel({
 
   let [selected, setSelected] = useState(lastImg ? images.length - 1 : 0);
 
-  useEffect(()=>{
-    function handleScroll(){
-        
-    }
-  },[])
-
   if (!images || images.length == 0) return null;
-
-
 
   const onDotClick = (index) => {
     setSelected(index);
@@ -52,9 +44,7 @@ export default function Carousel({
   return (
     <div className="carousel carousel2" onTouchStart={onSwipe}>
       <div className="sep"></div>
-      <div className="images-container" ref={imgConRef}
-         onScroll={}
-      >
+      <div className="images-container" ref={imgConRef}>
         {images.map((image, index) => {
           return (
             <div key={index + id} className="img-box">
