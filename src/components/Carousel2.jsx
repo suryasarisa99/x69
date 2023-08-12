@@ -48,7 +48,7 @@ export default function Carousel({
         {images.map((image, index) => {
           return (
             <div key={index + id} className="img-box">
-              <img key={index + id} src={image} alt="man" loading="lazy" />
+              <img key={index + id} src={image} alt="man" />
             </div>
           );
         })}

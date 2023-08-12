@@ -34,6 +34,9 @@ export default function Saved({ setShowBars }) {
     total: savedData.length,
   };
   useEffect(() => {
+    setTimeout(() => {
+      setShowBars(true);
+    }, 30);
     async function wait(time) {
       setFinalData([]);
       await new Promise((res, rej) => setTimeout(res, time));

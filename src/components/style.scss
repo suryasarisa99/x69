@@ -224,11 +224,19 @@ body {
   width: 100%;
   margin: 0px auto;
   display: flex;
-  justify-content: center;
+  justify-content: end;
 
   .search-bar-input {
-    width: 95%;
+    width: 90%;
     font-size: 18px;
+    align-self: flex-end;
+  }
+  .back-btn {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    // width: 15%;
   }
 
   // margin: 0px;
@@ -388,7 +396,7 @@ body {
   width: 100%;
   bottom: 0px;
   background-color: black;
-  padding: 20px 30px;
+  padding: 14px 30px;
   border-top: 1px solid gray;
   .icons {
     display: flex;

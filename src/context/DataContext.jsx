@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 let DataContext = createContext();
 
-import datax from "../../data.json";
+import datax from "../../dataWithIds.json";
+// import datax from "../../repeatedItems.json";
 import gifs from "../../data/data25.json";
 
 export default function DataProvider({ children }) {
@@ -56,7 +57,7 @@ export default function DataProvider({ children }) {
     search: 0,
   });
   const [carouselsLoaded, dispatchLoaded] = useReducer(reducer, {
-    home: 5,
+    home: 4,
     saved: 4,
     search: 4,
   });

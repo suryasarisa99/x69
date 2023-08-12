@@ -51,6 +51,9 @@ export default function Search() {
   }
 
   useEffect(() => {
+    setTimeout(() => {
+      setShowBars(true);
+    }, 10);
     window.addEventListener("scroll", handleScroll);
     document.getElementById("overlay").addEventListener("click", removeOverlay);
     window.addEventListener("scroll", removeOverlay);
@@ -91,7 +94,6 @@ export default function Search() {
   const handleScroll = () => {
     const currentScrollPos = window.scrollY;
     console.log(`${prevScrollPos.current}  ${currentScrollPos}`);
-    console.log(currentScrollPos < prevScrollPos.current);
     setShowBars(currentScrollPos < prevScrollPos.current);
     prevScrollPos.current = currentScrollPos;
   };
@@ -129,15 +131,13 @@ export default function Search() {
             dispatchLoaded({ type: "saved", payload: 4 });
           }}
         >
-          {
-            <button
-              className="back-btn"
-              type="button"
-              onClick={() => navigate(-1)}
-            >
-              <FaChevronLeft class="btn" />
-            </button>
-          }
+          <button
+            className="back-btn"
+            type="button"
+            onClick={() => navigate(-1)}
+          >
+            <FaChevronLeft class="btn" />
+          </button>
           <input
             type="text"
             name="query"

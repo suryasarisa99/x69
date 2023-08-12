@@ -47,6 +47,10 @@ export default function Home({ setShowBars }) {
   const { handleCarouselSwipe } = useCarousel(howToLoadData);
 
   useEffect(() => {
+    setTimeout(() => {
+      setShowBars(true);
+    }, 30);
+
     // dispatch(s)
     async function wait(time) {
       setFinalData([]);
