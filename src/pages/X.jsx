@@ -1,35 +1,18 @@
 import Admin from "./Admin";
 import { Outlet } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate, Routes, Route, useLocation } from "react-router-dom";
 import BottomNav from "../components/BottomNav";
 import SearchBar from "../components/SearchBar";
 import Videos from "./Videos";
 import Saved from "./Saved";
 import Settings from "./Settings";
+import { DataContext } from "../context/DataContext";
 import Home from "./Home";
 export default function X() {
   const navigate = useNavigate();
-  const [showBars, setShowBars] = useState(true);
-  const prevScrollPos = useRef(null);
+  const { showBars, setShowBars } = useContext(DataContext);
   const location = useLocation();
-
-  const handleScroll = () => {
-    const currentScrollPos = window.scrollY;
-    // console.log(`${prevScrollPos.current}  ${currentScrollPos}`);
-    // console.log(currentScrollPos < prevScrollPos.current);
-    setShowBars(currentScrollPos < prevScrollPos.current);
-    prevScrollPos.current = currentScrollPos;
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    // document.querySelector(".sample").addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
     setShowBars(true);

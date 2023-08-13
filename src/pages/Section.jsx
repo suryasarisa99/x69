@@ -1,0 +1,182 @@
+import {
+  useEffect,
+  useContext,
+  useState,
+  useRef,
+  createRef,
+  useLayoutEffect,
+} from "react";
+import Carousel1 from "../components/Carousel1";
+import Carousel2 from "../components/Carousel2";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { DataContext } from "../context/DataContext";
+import useCarousel from "../../hooks/useCarousel";
+import Share from "../components/Share";
+import { createPortal } from "react-dom";
+
+export default function Section({ data, howToLoadData, type }) {
+  const { handleCarouselSwipe } = useCarousel(howToLoadData);
+  const {
+    shuffleSection,
+    saved,
+    scrollPos,
+    dispatch,
+    carouselsLoaded,
+    dispatchLoaded,
+    persistantScroll,
+    isCarousel2,
+    setShowBars,
+  } = useContext(DataContext);
+  const [finalData, setFinalData] = useState([]);
+  const [share, setShare] = useState(false);
+  const shareIdRef = useRef(null);
+  const navigate = useNavigate();
+  // const { selected } = useParams();
+  const prevScrollPos = useRef(null);
+  const sectionRef = useRef(null);
+  const cleanupRef = useRef(null);
+
+  let savedData = data;
+
+  const showShare = (obj) => {
+    openOverlay();
+    setShare(true);
+    shareIdRef.current = obj;
+  };
+  const openOverlay = () => {
+    document.getElementById("overlay").classList.remove("hidden");
+  };
+  const removeOverlay = () => {
+    document.getElementById("overlay").classList.add("hidden");
+  };
+  const handleScroll = () => {
+    const currentScrollPos = sectionRef.current.scrollTop;
+    // console.log(currentScrollPos, prevScrollPos.current);
+    setShowBars(currentScrollPos < prevScrollPos.current);
+    prevScrollPos.current = currentScrollPos;
+  };
+
+  // For Persistant Scroll
+  useEffect(() => {
+    const sectionCopy = sectionRef.current;
+    setShowBars(true);
+    async function wait() {
+      console.log(`scrolled to: ${scrollPos[type]}`);
+      if (sectionCopy) {
+        await new Promise((res, rej) => {
+          console.log(`scrollled to: ${scrollPos[type]}`);
+          setTimeout(() => {
+            sectionRef.current.scrollTo({
+              top: scrollPos[type],
+              behavior: "instant",
+            });
+            res();
+          }, 20);
+        });
+        setTimeout(() => {
+          setShowBars(true);
+        }, 20);
+      }
+    }
+    if (persistantScroll) wait();
+
+    sectionCopy.addEventListener("scroll", handleScroll);
+    cleanupRef.current = () => {
+      sectionCopy.removeEventListener("scroll", handleScroll);
+    };
+    return () => {
+      cleanupRef.current(); // Call the cleanup function
+    };
+  }, [persistantScroll, scrollPos, type]);
+  // useEffect(() => {
+  //   async function wait() {
+  //     await new Promise((res, rej) => {
+  //       console.log(`scrollled to: ${scrollPos[type]}`);
+  //       setTimeout(() => {
+  //         sectionRef.current.scrollTo({
+  //           top: scrollPos[type],
+  //           behavior: "instant",
+  //         });
+  //         res();
+  //       }, 30);
+  //     });
+  //     setTimeout(() => {
+  //       setShowBars(true);
+  //     }, 25);
+  //   }
+
+  //   if (persistantScroll) wait();
+  //   const sectionCopy = sectionRef.current;
+  //   sectionRef.current.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     sectionCopy?.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
+
+  // event lis for overlay and window scroll
+  useEffect(() => {
+    document.getElementById("overlay").addEventListener("click", removeOverlay);
+    document
+      .querySelector(".section .section-carousels")
+      .addEventListener("scroll", removeOverlay);
+    return () => {
+      document
+        .getElementById("overlay")
+        .removeEventListener("click", removeOverlay);
+      document
+        .getElementById("overlay")
+        .removeEventListener("scroll", removeOverlay);
+    };
+  }, []);
+
+  return (
+    <div className="x section">
+      {/* <p>loaded carousels: {carouselsLoaded[type]}</p> */}
+      <div className="section-carousels" ref={sectionRef}>
+        {data
+          .slice(0, carouselsLoaded[type])
+          .map((item, index) =>
+            isCarousel2 ? (
+              <Carousel2
+                key={index}
+                type={type}
+                onShare={showShare}
+                id={item.id}
+                images={item?.images}
+                name={item?.title?.replace("-", " ").replace("?", "")}
+                onSwipe={() => handleCarouselSwipe(index)}
+              />
+            ) : (
+              <Carousel1
+                key={index}
+                type={type}
+                onShare={showShare}
+                id={item.id}
+                images={item?.images}
+                name={item?.title?.replace("-", " ").replace("?", "")}
+                onSwipe={() => handleCarouselSwipe(index)}
+              />
+            )
+          )}
+      </div>
+      {share &&
+        createPortal(
+          <Share
+            onClose={removeOverlay}
+            id={shareIdRef.current.id}
+            title={shareIdRef.current.name}
+          />,
+          document.getElementById("overlay")
+        )}
+    </div>
+  );
+}
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  // setLoadedCarousels(4);
+  return array;
+}

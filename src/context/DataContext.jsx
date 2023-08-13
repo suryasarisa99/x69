@@ -12,6 +12,7 @@ export default function DataProvider({ children }) {
   const [timeOut, setTimeOut] = useState(false);
   const [tempLogin, setTempLogin] = useState(false);
   const [wrongPass, setWrongPass] = useState(false);
+  const [showBars, setShowBars] = useState(true);
   const [saved, setSaved] = useState(
     JSON.parse(localStorage.getItem("saved")) || []
   );
@@ -190,6 +191,8 @@ export default function DataProvider({ children }) {
         setPersistantScroll,
         isCarousel2,
         setIsCarousel2,
+        showBars,
+        setShowBars,
       }}
     >
       {children}

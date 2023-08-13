@@ -14,8 +14,9 @@ export default function SearchBar({ type }) {
         className="search-bar"
         onSubmit={(e) => {
           e.preventDefault();
-          if (type == "saved") dispatch({ type, payload: scrollY });
-          else if (type == "home") dispatch({ type, payload: scrollY });
+          const sec = document.querySelector(".section-carousels");
+          if (type == "saved") dispatch({ type, payload: sec.scrollTop });
+          else if (type == "home") dispatch({ type, payload: sec?.scrollTop });
           navigate(`/search/${type}/${e.target.query.value}`);
         }}
       >

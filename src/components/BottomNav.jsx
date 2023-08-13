@@ -16,21 +16,23 @@ export default function BottomNav() {
   }, [location.pathname]);
 
   function saveScrollPos() {
-    switch (location.pathname) {
-      case "/":
-        dispatch({ type: "home", payload: scrollY });
-        console.log("savded scroll pos of home");
-        break;
-      case "/x/home":
-        dispatch({ type: "home", payload: scrollY });
-        console.log("savded scroll pos of home");
-        console.log(scrollPos["home"]);
-        break;
-      case "/x/saved":
-        dispatch({ type: "saved", payload: scrollY });
-        console.log("savded scroll pos of Saved");
-        break;
-    }
+    const scrollY = document.querySelector(".section-carousels")?.scrollTop;
+    if (scrollY)
+      switch (location.pathname) {
+        case "/":
+          dispatch({ type: "home", payload: scrollY });
+          console.log("savded scroll pos of home");
+          break;
+        case "/x/home":
+          dispatch({ type: "home", payload: scrollY });
+          console.log("savded scroll pos of home");
+          console.log(scrollPos["home"]);
+          break;
+        case "/x/saved":
+          dispatch({ type: "saved", payload: scrollY });
+          console.log("savded scroll pos of Saved");
+          break;
+      }
   }
   function goHome() {
     saveScrollPos();

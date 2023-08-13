@@ -354,7 +354,7 @@ body {
   }
 
   .section {
-    padding-top: 55px;
+    // padding-top: 55px;
   }
   .settings {
     user-select: none;
@@ -404,6 +404,22 @@ body {
     justify-content: space-between;
     .icon {
       font-size: 22px;
+    }
+  }
+}
+
+.x.section {
+  .section-carousels {
+    height: 100vh;
+    // background-color: red;
+    overflow-y: scroll;
+    // scroll-snap-type: y mandatory;
+    // scroll-snap-stop: always;
+
+    .carousel:first-child {
+      padding-top: 55px;
+      // scroll-snap-align: start;
+      // scroll-margin-top: 20px;
     }
   }
 }
