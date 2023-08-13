@@ -118,7 +118,12 @@ export default function Carousel({
   let calc = `calc(${pos}px + -${selected}00%)`;
 
   return (
-    <div className="carousel1 carousel" onTouchStart={onSwipe} ref={imgsRef}>
+    <div
+      className="carousel1 carousel"
+      onTouchStart={onSwipe}
+      onMouseOverCapture={onSwipe}
+      ref={imgsRef}
+    >
       <div className="images-container">
         {images.map((image, index) => {
           return (

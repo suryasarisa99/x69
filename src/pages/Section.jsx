@@ -17,6 +17,7 @@ import Suggest from "../components/Suggest";
 
 export default function Section({
   data,
+  setData,
   howToLoadData,
   type,
   setMiniSearchBar,
@@ -32,10 +33,11 @@ export default function Section({
     isCarousel2,
     setShowBars,
   } = useContext(DataContext);
-  const [finalData, setFinalData] = useState([]);
+  // const [finalData, setFinalData] = useState([]);
   const [share, setShare] = useState(false);
   const [suggestions, setSuggestions] = useState(false);
   const [suggName, setSuggName] = useState("");
+  const [id, setId] = useState(-1);
   const shareIdRef = useRef(null);
   const navigate = useNavigate();
   const prevScrollPos = useRef(null);
@@ -50,7 +52,15 @@ export default function Section({
   const openOverlay = () => {
     document.getElementById("overlay").classList.remove("hidden");
   };
-  const removeOverlay = () => {
+  const removeOverlay = (e) => {
+    console.log(e);
+    if (!document.querySelector(".suggestions").contains(e.target)) {
+      setShare(false);
+      setSuggestions(false);
+      document.getElementById("overlay").classList.add("hidden");
+    }
+  };
+  const foreCloseOverlay = (e) => {
     document.getElementById("overlay").classList.add("hidden");
   };
   const handleScroll = () => {
@@ -61,10 +71,25 @@ export default function Section({
     prevScrollPos.current = currentScrollPos;
   };
 
-  function showSuggestions(name) {
+  function showSuggestions({ title, id }) {
     openOverlay();
     setSuggestions(true);
-    setSuggName(name);
+    setSuggName(title);
+    setId(id);
+  }
+
+  function selectSuggestion(name) {
+    setSuggestions(false);
+    foreCloseOverlay();
+    let index = -1;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id == id) {
+        index = i;
+        break;
+      }
+    }
+    data[index].name = name;
+    setData([...data]);
   }
 
   useEffect(() => {
@@ -133,9 +158,9 @@ export default function Section({
   // event lis for overlay and window scroll
   useEffect(() => {
     document.getElementById("overlay").addEventListener("click", removeOverlay);
-    document
-      .querySelector(".section .section-carousels")
-      .addEventListener("scroll", removeOverlay);
+    // document
+    //   .querySelector(".section .section-carousels")
+    //   .addEventListener("scroll", removeOverlay);
     return () => {
       document
         .getElementById("overlay")
@@ -161,7 +186,8 @@ export default function Section({
                 showSuggestions={showSuggestions}
                 id={item.id}
                 images={item?.images}
-                name={item?.title?.replace("-", " ").replace("?", "")}
+                title={item?.title}
+                name={item?.name}
                 onSwipe={() => handleCarouselSwipe(index)}
               />
             ) : (
@@ -171,7 +197,8 @@ export default function Section({
                 onShare={showShare}
                 id={item.id}
                 images={item?.images}
-                name={item?.title?.replace("-", " ").replace("?", "")}
+                name={item?.name}
+                title={item?.title}
                 onSwipe={() => handleCarouselSwipe(index)}
               />
             )
@@ -188,7 +215,7 @@ export default function Section({
         )}
       {suggestions &&
         createPortal(
-          <Suggest name={suggName} />,
+          <Suggest name={suggName} onSelect={selectSuggestion} />,
           document.getElementById("overlay")
         )}
     </div>

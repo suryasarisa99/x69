@@ -8,12 +8,14 @@ import Share from "../components/Share";
 import { createPortal } from "react-dom";
 import useCarousel from "../../hooks/useCarousel";
 import Section from "./Section";
+import SearchResults from "../components/SearchResults";
 export default function Search() {
   const navigate = useNavigate();
   const { query: q, selected } = useParams();
   const [query, setQuery] = useState(q);
   const [finalQuery, setFinalQuery] = useState(q);
   const [showBars, setShowBars] = useState(true);
+  const [showResults, setShowResults] = useState(false);
   const prevScrollPos = useRef(null);
   const { shuffleSearchResults, data, saved, carouselsLoaded, dispatchLoaded } =
     useContext(DataContext);
@@ -42,6 +44,12 @@ export default function Search() {
     }
     default:
       searchData = data;
+  }
+
+  function selectResult(item) {
+    setFinalQuery(item);
+    setQuery(item);
+    setShowResults(false);
   }
 
   useEffect(() => {
@@ -78,6 +86,7 @@ export default function Search() {
           onSubmit={(e) => {
             e.preventDefault();
             setFinalQuery(query);
+            setShowResults(false);
             // navigate(`/search/${selected}/${query}`);
             // if (query != e.target.query.value) setQuery(e.target.query.value);
             dispatchLoaded({ type: "saved", payload: 4 });
@@ -96,11 +105,14 @@ export default function Search() {
             className="search-bar-input"
             value={query}
             onChange={(e) => {
+              setShowResults(true);
               setQuery(e.target.value);
             }}
           />
         </form>
       )}
+      {showResults && <SearchResults name={query} onSelect={selectResult} />}
+
       <Section
         data={filteredData}
         howToLoadData={howToLoadData}

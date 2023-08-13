@@ -35,6 +35,7 @@ export default function Home({ setShowBars }) {
       <Section
         setShowBars={setShowBars}
         data={finalData}
+        setData={setFinalData}
         howToLoadData={howToLoadData}
         type="home"
       />

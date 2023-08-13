@@ -6,6 +6,7 @@ import "./style.scss";
 export default function Carousel({
   images: imagesX,
   name,
+  title,
   onSwipe,
   onShare,
   id,
@@ -46,7 +47,7 @@ export default function Carousel({
     <div
       className="carousel carousel2"
       onTouchStart={onSwipe}
-      onMouseDown={onSwipe}
+      onMouseOverCapture={onSwipe}
     >
       <div className="sep"></div>
       {/* <p>{id}</p> */}
@@ -74,13 +75,18 @@ export default function Carousel({
         )}
       </div>
       <div className="top">
-        <div className="name" onClick={() => showSuggestions(name)}>
-          {name}
+        {/* <div className="name">{name || title}</div> */}
+        <div onClick={() => showSuggestions({ title, id })}>
+          {name ? (
+            <div className="name">{name}</div>
+          ) : (
+            <div className="title">{title}</div>
+          )}
         </div>
         <div className="icons">
           <BsShareFill
             className="share-icon"
-            onClick={() => onShare({ id, name })}
+            onClick={() => onShare({ id, name: name || title })}
           />
           {isSaved ? (
             <FaBookmark className="bookmark" onClick={removeBookMark} />

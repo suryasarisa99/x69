@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 let DataContext = createContext();
 
-import datax from "../../dataWithIds.json";
+import datax from "../../WithNames.json";
 // import datax from "../../repeatedItems.json";
-import gifs from "../../data/data25.json";
+// import gifs from "../../data/data25.json";
 
 export default function DataProvider({ children }) {
   const [login, setLogin] = useState(true);

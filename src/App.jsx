@@ -9,6 +9,7 @@ import Search from "./pages/Search";
 import Share from "./components/Share";
 import Shared from "./pages/Shared";
 import LargeCarousel from "./components/LargeCarousel";
+import Clear from "./pages/Clear";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route path="/share" element={<Share />} />
       <Route path="/" element={<X />} />
       <Route path="/large/:id" element={<LargeCarousel />} />
+      <Route path="/clear" element={<Clear />} />
     </Routes>
   );
 }

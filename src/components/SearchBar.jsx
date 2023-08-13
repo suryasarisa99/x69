@@ -1,6 +1,7 @@
 import { useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
+import SearchResults from "./SearchResults";
 export default function SearchBar({ type }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,6 +28,7 @@ export default function SearchBar({ type }) {
           placeholder="Search"
         />
       </form>
+      {/* {showResults && <SearchResults name={query} onSelect={selectResult} />} */}
     </div>
   );
 }

@@ -40,6 +40,7 @@ export default function X() {
         <Route path="/saved" element={<Saved setShowBars={setShowBars} />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
+      <div className="desktop-nav">hello hi</div>
       {showBars && <BottomNav />}
     </div>
   );
