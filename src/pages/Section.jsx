@@ -13,12 +13,17 @@ import { DataContext } from "../context/DataContext";
 import useCarousel from "../../hooks/useCarousel";
 import Share from "../components/Share";
 import { createPortal } from "react-dom";
+import Suggest from "../components/Suggest";
 
-export default function Section({ data, howToLoadData, type }) {
-  const { handleCarouselSwipe } = useCarousel(howToLoadData);
+export default function Section({
+  data,
+  howToLoadData,
+  type,
+  setMiniSearchBar,
+}) {
+  howToLoadData.total = data.length;
+  const { handleCarouselSwipe, setTotal } = useCarousel(howToLoadData);
   const {
-    shuffleSection,
-    saved,
     scrollPos,
     dispatch,
     carouselsLoaded,
@@ -29,14 +34,13 @@ export default function Section({ data, howToLoadData, type }) {
   } = useContext(DataContext);
   const [finalData, setFinalData] = useState([]);
   const [share, setShare] = useState(false);
+  const [suggestions, setSuggestions] = useState(false);
+  const [suggName, setSuggName] = useState("");
   const shareIdRef = useRef(null);
   const navigate = useNavigate();
-  // const { selected } = useParams();
   const prevScrollPos = useRef(null);
   const sectionRef = useRef(null);
   const cleanupRef = useRef(null);
-
-  let savedData = data;
 
   const showShare = (obj) => {
     openOverlay();
@@ -53,18 +57,31 @@ export default function Section({ data, howToLoadData, type }) {
     const currentScrollPos = sectionRef.current.scrollTop;
     // console.log(currentScrollPos, prevScrollPos.current);
     setShowBars(currentScrollPos < prevScrollPos.current);
+    setMiniSearchBar?.(currentScrollPos < prevScrollPos.current);
     prevScrollPos.current = currentScrollPos;
   };
+
+  function showSuggestions(name) {
+    openOverlay();
+    setSuggestions(true);
+    setSuggName(name);
+  }
+
+  useEffect(() => {
+    // howToLoadData.total = data.length;
+    setTotal(data.length);
+  }, [data]);
 
   // For Persistant Scroll
   useEffect(() => {
     const sectionCopy = sectionRef.current;
     setShowBars(true);
+    setMiniSearchBar?.(true);
     async function wait() {
-      console.log(`scrolled to: ${scrollPos[type]}`);
+      // console.log(`scrolled to: ${scrollPos[type]}`);
       if (sectionCopy) {
         await new Promise((res, rej) => {
-          console.log(`scrollled to: ${scrollPos[type]}`);
+          // console.log(`scrollled to: ${scrollPos[type]}`);
           setTimeout(() => {
             sectionRef.current.scrollTo({
               top: scrollPos[type],
@@ -141,6 +158,7 @@ export default function Section({ data, howToLoadData, type }) {
                 key={index}
                 type={type}
                 onShare={showShare}
+                showSuggestions={showSuggestions}
                 id={item.id}
                 images={item?.images}
                 name={item?.title?.replace("-", " ").replace("?", "")}
@@ -166,6 +184,11 @@ export default function Section({ data, howToLoadData, type }) {
             id={shareIdRef.current.id}
             title={shareIdRef.current.name}
           />,
+          document.getElementById("overlay")
+        )}
+      {suggestions &&
+        createPortal(
+          <Suggest name={suggName} />,
           document.getElementById("overlay")
         )}
     </div>

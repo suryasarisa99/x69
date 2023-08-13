@@ -7,33 +7,27 @@ import Carousel2 from "../components/Carousel2";
 import Share from "../components/Share";
 import { createPortal } from "react-dom";
 import useCarousel from "../../hooks/useCarousel";
+import Section from "./Section";
 export default function Search() {
   const navigate = useNavigate();
   const { query: q, selected } = useParams();
   const [query, setQuery] = useState(q);
   const [finalQuery, setFinalQuery] = useState(q);
   const [showBars, setShowBars] = useState(true);
-  const [share, setShare] = useState(false);
-  const shareIdRef = useRef(null);
   const prevScrollPos = useRef(null);
-  const {
-    shuffleSearchResults,
-    data,
-    saved,
-    carouselsLoaded,
-    dispatchLoaded,
-    isCarousel2,
-  } = useContext(DataContext);
+  const { shuffleSearchResults, data, saved, carouselsLoaded, dispatchLoaded } =
+    useContext(DataContext);
 
   let [filteredData, setFilterData] = useState([]);
   // shuffleSearchResults ? data[selected].data : data[selected].data;
   // shuffleSearchResults ? shuffleArray(data) : data
-  const { handleCarouselSwipe, setTotal } = useCarousel({
+  // const { handleCarouselSwipe, setTotal } = useCarousel();
+  const howToLoadData = {
     total: filteredData.length,
     type: "search",
     dispatchLoaded,
     carouselsLoaded,
-  });
+  };
 
   let searchData = [];
   // selected == -1 ? data.flatMap((d) => d.data) : data[selected].data;
@@ -51,25 +45,6 @@ export default function Search() {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowBars(true);
-    }, 10);
-    window.addEventListener("scroll", handleScroll);
-    document.getElementById("overlay").addEventListener("click", removeOverlay);
-    window.addEventListener("scroll", removeOverlay);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      document
-        .getElementById("overlay")
-        .removeEventListener("click", removeOverlay);
-      document
-        .getElementById("overlay")
-        .removeEventListener("scroll", removeOverlay);
-    };
-    // document.querySelector(".sample").addEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
     dispatchLoaded({ type: "search", payload: 4 });
 
     async function wait(time) {
@@ -79,14 +54,10 @@ export default function Search() {
       });
 
       let fdata = searchData.filter((item) =>
-        item?.title
-          ?.replace("-", " ")
-          ?.replace("?", "")
-          ?.toLowerCase()
-          ?.includes(query.toLowerCase())
+        item?.title?.toLowerCase()?.includes(query.toLowerCase())
       );
       setFilterData(shuffleSearchResults ? shuffleArray(fdata) : fdata);
-      setTotal(fdata.length);
+      // setTotal(fdata.length);
     }
     if (query != "") wait(0.1);
   }, [finalQuery]);
@@ -97,25 +68,6 @@ export default function Search() {
     setShowBars(currentScrollPos < prevScrollPos.current);
     prevScrollPos.current = currentScrollPos;
   };
-  const openOverlay = () => {
-    document.getElementById("overlay").classList.remove("hidden");
-  };
-  const removeOverlay = () => {
-    document.getElementById("overlay").classList.add("hidden");
-  };
-  const showShare = (obj) => {
-    openOverlay();
-    setShare(true);
-    shareIdRef.current = obj;
-  };
-
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
 
   return (
     <div className="search">
@@ -149,39 +101,14 @@ export default function Search() {
           />
         </form>
       )}
-      <div className="section-carousels section">
-        {filteredData.slice(0, carouselsLoaded.search).map((item, index) => {
-          return isCarousel2 ? (
-            <Carousel2
-              key={index}
-              images={item?.images}
-              name={item?.title}
-              onShare={showShare}
-              id={item.id}
-              onSwipe={() => handleCarouselSwipe(index)}
-            />
-          ) : (
-            <Carousel1
-              key={index}
-              images={item?.images}
-              name={item?.title}
-              onShare={showShare}
-              id={item.id}
-              onSwipe={() => handleCarouselSwipe(index)}
-            />
-          );
-        })}
-      </div>
-
-      {share &&
-        createPortal(
-          <Share
-            onClose={removeOverlay}
-            id={shareIdRef.current.id}
-            title={shareIdRef.current.name}
-          />,
-          document.getElementById("overlay")
-        )}
+      <Section
+        data={filteredData}
+        howToLoadData={howToLoadData}
+        type="search"
+        setMiniSearchBar={setShowBars}
+      />
     </div>
   );
 }
+
+function shuffleArray() {}

@@ -2,6 +2,7 @@ import { useEffect, useContext, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 import Section from "./Section";
+import Suggest from "../components/Suggest";
 
 export default function Home({ setShowBars }) {
   const { data, carouselsLoaded, dispatchLoaded } = useContext(DataContext);

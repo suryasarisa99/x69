@@ -10,6 +10,7 @@ export default function Carousel({
   onShare,
   id,
   type,
+  showSuggestions,
   removeCarouselFromSaved,
 }) {
   const { slide, lastImg, reverseOrder, saved, setSaved } =
@@ -42,8 +43,13 @@ export default function Carousel({
   //   let calc = `calc(${pos}px + -${selected}00%)`;
 
   return (
-    <div className="carousel carousel2" onTouchStart={onSwipe}>
+    <div
+      className="carousel carousel2"
+      onTouchStart={onSwipe}
+      onMouseDown={onSwipe}
+    >
       <div className="sep"></div>
+      {/* <p>{id}</p> */}
       <div className="images-container" ref={imgConRef}>
         {images.map((image, index) => {
           return (
@@ -68,7 +74,9 @@ export default function Carousel({
         )}
       </div>
       <div className="top">
-        <div className="name">{name}</div>
+        <div className="name" onClick={() => showSuggestions(name)}>
+          {name}
+        </div>
         <div className="icons">
           <BsShareFill
             className="share-icon"

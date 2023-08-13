@@ -3,6 +3,7 @@ import { DataContext } from "../context/DataContext";
 import { useNavigate } from "react-router-dom";
 import Switch from "../components/Switch";
 import { GrLinkNext } from "react-icons/gr";
+import Suggest from "../components/Suggest";
 
 export default function Settings() {
   const {
