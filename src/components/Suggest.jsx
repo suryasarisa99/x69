@@ -95,8 +95,10 @@ export default function Suggest({ name, onSelect }) {
           >
             <p>{item.name}</p>
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 navigate(`/search/${"home"}/${item.name}`);
+                document.getElementById("overlay").classList.add("hidden");
               }}
             >
               <FaSearch />
