@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import actress from "../../actress.json";
 import { DataContext } from "../context/DataContext";
 import { FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function Suggest({ name, onSelect }) {
   const [data, setData] = useState([]);
@@ -11,6 +12,7 @@ export default function Suggest({ name, onSelect }) {
   nameWords = nameWords.map((item) => item.trim().replace(/[^\x20-\x7E]/g, ""));
   const [query, setQuery] = useState("");
   let exactMatchFound = useRef(false);
+  const navigate = useNavigate();
   useEffect(() => {
     exactMatchFound.current = false;
     setData([]);
@@ -91,10 +93,12 @@ export default function Suggest({ name, onSelect }) {
               (item.partialMatch ? "partial-match " : "")
             }
           >
-            <p>
-              {item.name}-{item.ind}{" "}
-            </p>{" "}
-            <button>
+            <p>{item.name}</p>
+            <button
+              onClick={() => {
+                navigate(`/search/${"home"}/${item.name}`);
+              }}
+            >
               <FaSearch />
             </button>
           </div>
