@@ -1,10 +1,11 @@
-import { createContext, useState, useEffect, useReducer } from "react";
+import { createContext, useState, useEffect, useReducer, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 let DataContext = createContext();
-
-import datax from "../../WithNames.json";
-// import datax from "../../repeatedItems.json";
+import Fuse from "fuse.js";
+// import datax from "../../withNames.json";
+import actress from "../../actress.json";
+import datax from "../../data.json";
 // import gifs from "../../data/data25.json";
 
 export default function DataProvider({ children }) {
@@ -45,7 +46,7 @@ export default function DataProvider({ children }) {
   let [isCarousel2, setIsCarousel2] = useState(
     toggles?.carousel2 !== undefined ? toggles.carousel2 : false
   );
-  const [data, setData] = useState(datax);
+  const [data, setData] = useState([]);
   // let [finalData, setFinalData] = useState(
   //   shuffleSection ? shuffleArray(data) : data
   // );
@@ -62,12 +63,25 @@ export default function DataProvider({ children }) {
     saved: 4,
     search: 4,
   });
+  const accFuseRef = useRef(null);
 
   useEffect(() => {
     localStorage.setItem("saved", JSON.stringify(saved));
   }, [saved]);
+
   useEffect(() => {
-    setData((data) => (shuffleSection ? shuffleArray(data) : data));
+    // axios
+    //   .get(`${import.meta.env.VITE_SERVER}/data`, { withCredentials: true })
+    //   .then((res) => {
+    //     console.log(res);
+    //     setData((prv) => (shuffleSection ? shuffleArray(res.data) : res.data));
+    //   });
+    setData(shuffleSection ? shuffleArray(datax) : datax);
+    accFuseRef.current = new Fuse(actress, {
+      keys: ["name"],
+      threshold: 0.5,
+      includeScore: true,
+    });
   }, []);
 
   const navigate = useNavigate();
@@ -192,6 +206,7 @@ export default function DataProvider({ children }) {
         isCarousel2,
         setIsCarousel2,
         showBars,
+        accFuseRef,
         setShowBars,
       }}
     >

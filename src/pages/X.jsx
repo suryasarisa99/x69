@@ -9,9 +9,11 @@ import Saved from "./Saved";
 import Settings from "./Settings";
 import { DataContext } from "../context/DataContext";
 import Home from "./Home";
+import SearchResults from "../components/SearchResults";
 export default function X() {
   const navigate = useNavigate();
   const { showBars, setShowBars } = useContext(DataContext);
+  const { suggestions, setShowSuggestions } = useState(false);
   const location = useLocation();
 
   useEffect(() => {

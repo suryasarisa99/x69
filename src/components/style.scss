@@ -251,6 +251,12 @@ body {
     color: white;
     // text-overflow: ellipsis;
   }
+  .no-name {
+    background-color: rgb(161, 0, 40);
+    padding: 6px 12px;
+    border-radius: 10px;
+    margin-left: 12px;
+  }
   .title {
     text-align: left;
     white-space: nowrap;
@@ -440,6 +446,17 @@ body {
     border: 1px soldi rgb(181, 181, 181);
     border-radius: 6px;
     background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    button {
+      background-color: transparent;
+      padding: 0;
+      padding: 3px 12px;
+      padding-top: 4px;
+      margin: 0;
+      border: 0px;
+    }
   }
   .exact-match {
     background-color: rgb(171, 19, 182);

@@ -14,6 +14,7 @@ import useCarousel from "../../hooks/useCarousel";
 import Share from "../components/Share";
 import { createPortal } from "react-dom";
 import Suggest from "../components/Suggest";
+import axios from "axios";
 
 export default function Section({
   data,
@@ -88,6 +89,13 @@ export default function Section({
         break;
       }
     }
+    axios
+      .post(`${import.meta.env.VITE_SERVER}/data/update-name`, {
+        name,
+        id,
+      })
+      .then((res) => console.log(res));
+
     data[index].name = name;
     setData([...data]);
   }

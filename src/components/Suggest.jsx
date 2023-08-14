@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import actress from "../../actress.json";
+import { DataContext } from "../context/DataContext";
+import { FaSearch } from "react-icons/fa";
 
 export default function Suggest({ name, onSelect }) {
   const [data, setData] = useState([]);
+  const { accFuseRef } = useContext(DataContext);
+
   let nameWords = name.toLowerCase().trim().split(" ");
   nameWords = nameWords.map((item) => item.trim().replace(/[^\x20-\x7E]/g, ""));
   const [query, setQuery] = useState("");
@@ -11,7 +15,7 @@ export default function Suggest({ name, onSelect }) {
     exactMatchFound.current = false;
     setData([]);
     const fdata = actress
-      .map((item) => {
+      .map((item, ind) => {
         const itemWords = item.words ?? item.name.toLowerCase().split(" ");
         const actualWordsLen = item.name.toLowerCase().split(" ").length;
         const matchingWords = itemWords.filter((word) =>
@@ -32,6 +36,7 @@ export default function Suggest({ name, onSelect }) {
           ...item,
           exactMatch,
           partialMatch,
+          ind,
           // actualWordsLen,
           // w: matchingWords,
           // aw: itemWords,
@@ -50,9 +55,7 @@ export default function Suggest({ name, onSelect }) {
 
   useEffect(() => {
     if (query) {
-      const fdata = actress.filter((item) =>
-        item.name.toLowerCase().includes(query.toLowerCase())
-      );
+      const fdata = accFuseRef.current.search(query).map((item) => item.item);
       setData([]);
       setTimeout(() => setData(fdata), 0.1);
     }
@@ -67,6 +70,7 @@ export default function Suggest({ name, onSelect }) {
           placeholder="search"
           value={query}
           onClick={(e) => e.stopPropagation()}
+          // autoFocus
           onChange={(e) => setQuery(e.target.value)}
         />
       </form>
@@ -80,15 +84,20 @@ export default function Suggest({ name, onSelect }) {
             return <p key={it + " " + index}>{it}</p>;
           })} */}
 
-          <p
+          <div
             className={
               "sugg-item " +
               (item.exactMatch ? "exact-match " : "") +
               (item.partialMatch ? "partial-match " : "")
             }
           >
-            {item.name}
-          </p>
+            <p>
+              {item.name}-{item.ind}{" "}
+            </p>{" "}
+            <button>
+              <FaSearch />
+            </button>
+          </div>
         </div>
       ))}
     </div>

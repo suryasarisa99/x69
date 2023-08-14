@@ -22,7 +22,7 @@ export default function Saved({ setShowBars }) {
       await new Promise((res, rej) => setTimeout(res, time));
       setFinalData(shuffleSaved ? shuffleArray(savedData) : savedData);
     }
-    wait(0.1);
+    wait(400);
   }, []);
 
   return (

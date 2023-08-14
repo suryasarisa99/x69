@@ -9,6 +9,8 @@ import { createPortal } from "react-dom";
 import useCarousel from "../../hooks/useCarousel";
 import Section from "./Section";
 import SearchResults from "../components/SearchResults";
+import Fuse from "fuse.js";
+
 export default function Search() {
   const navigate = useNavigate();
   const { query: q, selected } = useParams();
@@ -51,6 +53,14 @@ export default function Search() {
     setQuery(item);
     setShowResults(false);
   }
+  let fuse = useRef(null);
+  useEffect(() => {
+    fuse.current = new Fuse(data, {
+      keys: ["name", "title"],
+      includeScore: true,
+      threshold: 0.2,
+    });
+  }, [data]);
 
   useEffect(() => {
     dispatchLoaded({ type: "search", payload: 4 });
@@ -61,11 +71,14 @@ export default function Search() {
         setTimeout(resolve, time);
       });
 
-      let fdata = searchData.filter((item) =>
-        item?.title?.toLowerCase()?.includes(query.toLowerCase())
-      );
+      // let fdata = searchData.filter((item) =>
+      //   item?.title?.toLowerCase()?.includes(query.toLowerCase())
+      // );
+
+      let fdata = fuse.current.search(query).map((item) => item.item);
       setFilterData(shuffleSearchResults ? shuffleArray(fdata) : fdata);
       // setTotal(fdata.length);
+      console.log(fdata);
     }
     if (query != "") wait(0.1);
   }, [finalQuery]);

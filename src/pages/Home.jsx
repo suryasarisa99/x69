@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useContext, useState, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 import Section from "./Section";
@@ -21,24 +21,26 @@ export default function Home({ setShowBars }) {
   };
 
   useEffect(() => {
-    async function wait(time) {
-      setFinalData([]);
-      await new Promise((res, rej) => setTimeout(res, time));
-      setFinalData(data);
-      // setFinalData(shuffleSection ? shuffleArray([...savedData]) : savedData);
-    }
-    wait(0.1);
+    // async function wait(time) {
+    // setFinalData([]);
+    // await new Promise((res, rej) => setTimeout(res, time));
+    // setFinalData(data);
+    // setFinalData(shuffleSection ? shuffleArray([...savedData]) : savedData);
+    // }
+    // wait(2000);
   }, []);
 
   return (
     <div>
+      {/* {data.length > 0 && ( */}
       <Section
         setShowBars={setShowBars}
-        data={finalData}
+        data={data}
         setData={setFinalData}
         howToLoadData={howToLoadData}
         type="home"
       />
+      {/* )} */}
     </div>
   );
 }

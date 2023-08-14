@@ -76,12 +76,10 @@ export default function Carousel({
       </div>
       <div className="top">
         {/* <div className="name">{name || title}</div> */}
-        <div onClick={() => showSuggestions({ title, id })}>
-          {name ? (
-            <div className="name">{name}</div>
-          ) : (
-            <div className="title">{title}</div>
-          )}
+        <div onClick={() => showSuggestions({ title: name || title, id })}>
+          {name && <div className="name">{name}</div>}
+          {!name && title && <div className="title">{title}</div>}
+          {!name && !title && <div className="no-name">No Name </div>}
         </div>
         <div className="icons">
           <BsShareFill
