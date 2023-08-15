@@ -24,6 +24,8 @@ export default function Settings() {
     setPersistantScroll,
     isCarousel2,
     setIsCarousel2,
+    fromDb,
+    setFromDb,
   } = useContext(DataContext);
   const navigate = useNavigate();
   return (
@@ -103,6 +105,10 @@ export default function Settings() {
             stateFun={setPersistantScroll}
             saveAs="persistantScroll"
           />
+        </div>
+        <div className="toggle">
+          <p>From Db</p>
+          <Switch state={fromDb} stateFun={setFromDb} saveAs="fromDb" />
         </div>
       </div>
 

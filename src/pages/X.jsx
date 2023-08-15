@@ -11,6 +11,7 @@ import { DataContext } from "../context/DataContext";
 import Home from "./Home";
 import SearchResults from "../components/SearchResults";
 import SideNav from "../components/SideNav";
+import Profiles from "./Profiles";
 export default function X() {
   const navigate = useNavigate();
   const { showBars, setShowBars } = useContext(DataContext);
@@ -41,6 +42,7 @@ export default function X() {
         <Route path="*" element={<Home setShowBars={setShowBars} />} />
         <Route path="/videos" element={<Videos setShowBars={setShowBars} />} />
         <Route path="/saved" element={<Saved setShowBars={setShowBars} />} />
+        <Route path="/profiles" element={<Profiles />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
       <SideNav />

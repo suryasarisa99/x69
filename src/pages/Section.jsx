@@ -84,7 +84,7 @@ export default function Section({
     foreCloseOverlay();
     let index = -1;
     for (let i = 0; i < data.length; i++) {
-      if (data[i].id == id) {
+      if (data[i]._id == id) {
         index = i;
         break;
       }
@@ -192,7 +192,7 @@ export default function Section({
                 type={type}
                 onShare={showShare}
                 showSuggestions={showSuggestions}
-                id={item.id}
+                id={item._id}
                 images={item?.images}
                 title={item?.title}
                 name={item?.name}
@@ -203,7 +203,7 @@ export default function Section({
                 key={index}
                 type={type}
                 onShare={showShare}
-                id={item.id}
+                id={item._id}
                 images={item?.images}
                 name={item?.name}
                 title={item?.title}

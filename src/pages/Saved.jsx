@@ -18,7 +18,7 @@ export default function Saved({ setShowBars }) {
     async function wait(time) {
       setFinalData([]);
       await new Promise((res, rej) => setTimeout(res, time));
-      let savedData = data.filter((d) => saved.includes(d.id));
+      let savedData = data.filter((d) => saved.includes(d._id));
       setFinalData(shuffleSaved ? shuffleArray(savedData) : savedData);
     }
     wait(400);

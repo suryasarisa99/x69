@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { DataContext } from "../context/DataContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaBookmark, FaRegBookmark } from "react-icons/fa";
+import { FaBookmark, FaFire, FaRegBookmark } from "react-icons/fa";
 import { BsGear, BsGearFill, BsPlayBtn, BsPlayBtnFill } from "react-icons/bs";
 import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 
@@ -50,6 +50,10 @@ export default function BottomNav() {
     saveScrollPos();
     navigate("/x/settings");
   }
+  function goProfiles() {
+    saveScrollPos();
+    navigate("/x/profiles");
+  }
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
@@ -67,6 +71,9 @@ export default function BottomNav() {
       <div className="icons">
         <button onClick={goHome}>
           <Home className="icon" />
+        </button>
+        <button onClick={goProfiles}>
+          <FaFire className="icon" />
         </button>
         <button onClick={goVideos}>
           <Videos className="icon" />
