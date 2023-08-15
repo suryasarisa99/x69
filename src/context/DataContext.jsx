@@ -76,14 +76,14 @@ export default function DataProvider({ children }) {
 
   useEffect(() => {
     if (fromDb) {
-      axios
-        .get(`${import.meta.env.VITE_SERVER}/data`, { withCredentials: true })
-        .then((res) => {
-          console.log(res);
-          setData((prv) =>
-            shuffleSection ? shuffleArray(res.data) : res.data
-          );
-        });
+      // axios
+      //   .get(`${import.meta.env.VITE_SERVER}/data`, { withCredentials: true })
+      //   .then((res) => {
+      //     console.log(res);
+      //     setData((prv) =>
+      //       shuffleSection ? shuffleArray(res.data) : res.data
+      //     );
+      //   });
     } else setData(shuffleSection ? shuffleArray(datax) : datax);
     accFuseRef.current = new Fuse(actress, {
       keys: ["name"],
