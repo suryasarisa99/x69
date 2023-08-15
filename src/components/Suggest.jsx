@@ -68,7 +68,7 @@ export default function Suggest({ name, onSelect }) {
   //     setData([]);
   //     const fdata = accFuseRef.current.search(query).map((item) => item.item);
   //     setTimeout(() => setFuzzyResult(fdata), 2);
-  //   }
+  //  }
   // }, [query]);
 
   return (
