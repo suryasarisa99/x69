@@ -171,7 +171,8 @@ function Items({ name }) {
       <button
         onClick={(e) => {
           e.stopPropagation();
-          open(`http://192.168.0.169:4444/search/${"home"}/${name}`);
+          // open(`http://192.168.0.169:4444/search/${"home"}/${name}`);
+          open(`https://x69.vercel.app/search/${"home"}/${name}`);
           // navigate(`/search/${"home"}/${name}`);
           document.getElementById("overlay").classList.add("hidden");
         }}
