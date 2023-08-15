@@ -65,10 +65,18 @@ export default function BottomNav() {
     <div className="bottom-nav">
       {/* <p>{location.pathname}</p> */}
       <div className="icons">
-        <Home className="icon" onClick={goHome} />
-        <Videos className="icon" onClick={goVideos} />
-        <Saved className="icon" onClick={goSaved} />
-        <Settings className="icon" onClick={goSettings} />
+        <button onClick={goHome}>
+          <Home className="icon" />
+        </button>
+        <button onClick={goVideos}>
+          <Videos className="icon" />
+        </button>
+        <button onClick={goSaved}>
+          <Saved className="icon" />
+        </button>
+        <button onClick={goSettings}>
+          <Settings className="icon" />
+        </button>
       </div>
     </div>
   );

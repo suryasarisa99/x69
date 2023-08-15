@@ -57,11 +57,13 @@ export default function DataProvider({ children }) {
     home: 0,
     saved: 0,
     search: 0,
+    videos: 0,
   });
   const [carouselsLoaded, dispatchLoaded] = useReducer(reducer, {
-    home: 4,
-    saved: 4,
-    search: 4,
+    home: 3,
+    saved: 1,
+    search: 1,
+    videos: 2,
   });
   const accFuseRef = useRef(null);
 
