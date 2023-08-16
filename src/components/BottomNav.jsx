@@ -3,7 +3,12 @@ import { DataContext } from "../context/DataContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaBookmark, FaFire, FaRegBookmark } from "react-icons/fa";
 import { BsGear, BsGearFill, BsPlayBtn, BsPlayBtnFill } from "react-icons/bs";
-import { AiFillHome, AiOutlineHome } from "react-icons/ai";
+import {
+  AiFillHome,
+  AiOutlineHome,
+  AiOutlineFire,
+  AiFillFire,
+} from "react-icons/ai";
 
 export default function BottomNav() {
   const { scrollPos, dispatch } = useContext(DataContext);
@@ -64,7 +69,7 @@ export default function BottomNav() {
   const Videos = location.pathname == "/x/videos" ? BsPlayBtnFill : BsPlayBtn;
   const Saved = location.pathname == "/x/saved" ? FaBookmark : FaRegBookmark;
   const Settings = location.pathname == "/x/settings" ? BsGearFill : BsGear;
-
+  const Fire = location.pathname == "/x/profiles" ? AiFillFire : AiOutlineFire;
   return (
     <div className="bottom-nav">
       {/* <p>{location.pathname}</p> */}
@@ -73,7 +78,7 @@ export default function BottomNav() {
           <Home className="icon" />
         </button>
         <button onClick={goProfiles}>
-          <FaFire className="icon" />
+          <Fire className="icon" />
         </button>
         <button onClick={goVideos}>
           <Videos className="icon" />

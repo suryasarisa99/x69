@@ -29,24 +29,12 @@ export default function Search() {
   const howToLoadData = {
     total: filteredData.length,
     type: "search",
+    load: selected == "videos" ? 2 : 4,
     dispatchLoaded,
     carouselsLoaded,
   };
 
-  let searchData = [];
   // selected == -1 ? data.flatMap((d) => d.data) : data[selected].data;
-  switch (selected) {
-    case "gifs": {
-      searchData = data[data.length - 1].data;
-      break;
-    }
-    case "saved": {
-      searchData = data.filter((d) => saved.includes(d.id));
-      break;
-    }
-    default:
-      searchData = data;
-  }
 
   function selectResult(item) {
     setFinalQuery(item);
@@ -54,11 +42,32 @@ export default function Search() {
     setShowResults(false);
   }
   let fuse = useRef(null);
+
   useEffect(() => {
-    fuse.current = new Fuse(data, {
+    if (selected == "videos") dispatchLoaded({ type: "videos", payload: 2 });
+  }, [selected]);
+  useEffect(() => {
+    let searchData = [];
+
+    switch (selected) {
+      case "gifs": {
+        searchData = data.filter((d) => d.images?.[0].endsWith(".gif"));
+        console.log("Gifs");
+        console.log(searchData);
+        break;
+      }
+      case "saved": {
+        searchData = data.filter((d) => saved.includes(d._id));
+        break;
+      }
+      default:
+        searchData = data;
+    }
+    console.log(searchData);
+    fuse.current = new Fuse(searchData, {
       keys: ["name", "title"],
       includeScore: true,
-      threshold: 0.2,
+      threshold: 0.4,
     });
   }, [data]);
 

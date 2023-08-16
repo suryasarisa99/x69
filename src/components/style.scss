@@ -16,6 +16,7 @@ body {
   user-select: none;
 
   img {
+    min-height: 250px;
     width: 100%;
     border-radius: 18px;
     user-select: none;
@@ -615,21 +616,147 @@ body {
   //   }
   // }
 }
+.search-bar-2 {
+  margin-bottom: 15px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  padding: 12px;
+  background-color: rgb(0, 0, 0);
+  z-index: 2;
+  // background-color: red;
 
+  width: calc(100%);
+  .search-bar-input {
+    width: 100%;
+    font-size: 18px;
+    // background-color: red;
+  }
+}
 .profiles {
-  padding-top: 65px;
+  padding: 15px;
+  padding-top: 75px;
   color: white;
 
-  .profile {
+  .flex-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+
+    .profile-item {
+      flex-grow: 1;
+      justify-content: space-around;
+      span {
+        font-weight: 800;
+        color: greenyellow;
+      }
+    }
+  }
+
+  .profile-item {
     display: flex;
     justify-content: space-between;
     padding: 10px 20px;
     background-color: rgb(43, 43, 43);
     margin-bottom: 8px;
+    border-radius: 8px;
 
     .name {
     }
     .count {
+    }
+  }
+}
+
+.profile {
+  background-color: black;
+
+  .head-bar {
+    border-bottom: 1px solid gray;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: fixed;
+    background-color: black;
+
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    .back-btn-x {
+      font-size: 24px;
+    }
+    .back-btn-outer {
+      padding: 14px;
+    }
+  }
+  .main {
+    margin-top: 60px;
+    background-color: black;
+
+    display: flex;
+    padding: 40px 20px;
+    justify-content: space-between;
+    gap: 15px;
+    .pic {
+      border: 1px solid gray;
+      border-radius: 12px;
+      height: 180px;
+      width: 145px;
+      flex-shrink: 0;
+    }
+    .image-container {
+      width: 180px;
+      height: 200px;
+      overflow: hidden; /* This is important to clip the image */
+      border-radius: 10px;
+      flex-shrink: 0;
+      position: relative; /* To make the absolute positioning work */
+    }
+    .img {
+      width: 100%; /* To ensure the image covers the entire container */
+      position: absolute;
+      top: -5px; /* Aligns the top part of the image with the container */
+      object-fit: cover; /* Maintain aspect ratio and cover */
+    }
+    // .img {
+    //   width: 200px;
+    //   height: 200px;
+    //   object-fit: cover;
+    //   border-radius: 10px;
+    //   flex-shrink: 0;
+    // }
+    .about {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .name {
+        font-size: 26px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .count {
+        padding: 15px;
+      }
+      .google-search {
+        background-color: rgb(0, 119, 255);
+        border: none;
+      }
+    }
+  }
+
+  .x.section {
+    .section-carousels {
+      height: 100%;
+      overflow: visible;
+
+      &:first-child {
+        padding-top: 10px;
+      }
+      .carousel:first-child {
+        padding-top: 20px;
+      }
     }
   }
 }

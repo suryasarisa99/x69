@@ -28,7 +28,11 @@ export default function X() {
       searchType = "saved";
       break;
     case "/x/settings":
+    case "/x/profiles":
       searchType = "none";
+      break;
+    case "/x/videos":
+      searchType = "gifs";
       break;
     case "/":
     case "/x/home":

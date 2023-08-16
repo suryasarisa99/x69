@@ -10,6 +10,7 @@ import Share from "./components/Share";
 import Shared from "./pages/Shared";
 import LargeCarousel from "./components/LargeCarousel";
 import Clear from "./pages/Clear";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Route path="/" element={<X />} />
       <Route path="/large/:id" element={<LargeCarousel />} />
       <Route path="/clear" element={<Clear />} />
+      <Route path="/profile/:name" element={<Profile />} />
     </Routes>
   );
 }

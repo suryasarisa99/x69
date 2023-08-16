@@ -14,6 +14,7 @@ export default function DataProvider({ children }) {
   const [tempLogin, setTempLogin] = useState(false);
   const [wrongPass, setWrongPass] = useState(false);
   const [showBars, setShowBars] = useState(true);
+  const [profiles, setProfiles] = useState([]);
   const [saved, setSaved] = useState(
     JSON.parse(localStorage.getItem("saved")) || []
   );
@@ -67,6 +68,7 @@ export default function DataProvider({ children }) {
     saved: 1,
     search: 1,
     videos: 2,
+    profile: 2,
   });
   const accFuseRef = useRef(null);
 
@@ -90,6 +92,23 @@ export default function DataProvider({ children }) {
       threshold: 0.4,
     });
   }, []);
+
+  useEffect(() => {
+    if (data.length > 0)
+      data
+        .filter((item) => item.name)
+        .forEach((item) => {
+          let accItem = actress.find((acc) => acc.name == item.name);
+          if (accItem) {
+            if (accItem.count == undefined) {
+              accItem.count = 1;
+            } else accItem.count += 1;
+          }
+        });
+    setProfiles(
+      actress.filter((item) => item.count > 0).sort((a, b) => b.count - a.count)
+    );
+  }, [data]);
 
   const navigate = useNavigate();
   // useEffect(() => {
@@ -217,6 +236,7 @@ export default function DataProvider({ children }) {
         fromDb,
         setFromDb,
         setShowBars,
+        profiles,
       }}
     >
       {children}
