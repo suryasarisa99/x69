@@ -124,7 +124,6 @@ export default function DataProvider({ children }) {
     }
     axios
       .get(`${import.meta.env.VITE_SERVER}/auth/status`, {
-        withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
         },

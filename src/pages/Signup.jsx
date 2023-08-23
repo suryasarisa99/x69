@@ -72,14 +72,14 @@ export default function Signup() {
     let noError = true;
     for (let error in errors) {
       if (errors[error] === true) {
-        console.log(`${error}: ${errors[error]}`);
+        // console.log(`${error}: ${errors[error]}`);
         noError = false;
         break;
       }
     }
-    console.log(`noError: ${noError}`);
+    // console.log(`noError: ${noError}`);
     if (noError) {
-      console.log("no Error");
+      // console.log("no Error");
       axios
         .post(`${import.meta.env.VITE_SERVER}/auth/signup`, {
           fname: e.target.fname.value,
@@ -178,5 +178,5 @@ export default function Signup() {
 }
 
 function Error({ children }) {
-  return <di className="error">{children}</di>;
+  return <div className="error">{children}</div>;
 }

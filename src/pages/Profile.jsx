@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Section from "./Section";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
+
 export default function Profile() {
   const { name } = useParams();
   const { data, carouselsLoaded, dispatchLoaded } = useContext(DataContext);
