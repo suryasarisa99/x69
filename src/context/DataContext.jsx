@@ -10,6 +10,7 @@ import datax from "../../data.json";
 
 export default function DataProvider({ children }) {
   const [login, setLogin] = useState(true);
+  const [signin, setSignin] = useState(false);
   const [timeOut, setTimeOut] = useState(false);
   const [tempLogin, setTempLogin] = useState(false);
   const [wrongPass, setWrongPass] = useState(false);
@@ -33,7 +34,7 @@ export default function DataProvider({ children }) {
     toggles?.reverse !== undefined ? toggles.reverse : false
   );
   let [shuffleSection, setShuffleSection] = useState(
-    toggles?.shuffleSection !== undefined ? toggles.shuffleSection : false
+    toggles?.shuffleSection !== undefined ? toggles.shuffleSection : true
   );
   let [shuffleSaved, setShuffleSaved] = useState(
     toggles?.shuffleSaved !== undefined ? toggles.shuffleSaved : false
@@ -45,7 +46,7 @@ export default function DataProvider({ children }) {
     toggles?.persistantScroll !== undefined ? toggles.persistantScroll : false
   );
   let [isCarousel2, setIsCarousel2] = useState(
-    toggles?.carousel2 !== undefined ? toggles.carousel2 : false
+    toggles?.carousel2 !== undefined ? toggles.carousel2 : true
   );
   let [fromDb, setFromDb] = useState(
     toggles?.fromDb !== undefined ? toggles.fromDb : false
@@ -65,10 +66,11 @@ export default function DataProvider({ children }) {
   });
   const [carouselsLoaded, dispatchLoaded] = useReducer(reducer, {
     home: 3,
-    saved: 1,
-    search: 1,
+    saved: 3,
+    search: 3,
     videos: 2,
     profile: 2,
+    undefined: 1,
   });
   const accFuseRef = useRef(null);
 
@@ -77,6 +79,8 @@ export default function DataProvider({ children }) {
   }, [saved]);
 
   useEffect(() => {
+    // navigate("/signin");
+    checkLoginStatus();
     if (fromDb) {
       // axios
       //   .get(`${import.meta.env.VITE_SERVER}/data`, { withCredentials: true })
@@ -111,46 +115,30 @@ export default function DataProvider({ children }) {
   }, [data]);
 
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   let slideToggle = JSON.parse(localStorage.getItem("slide"));
-  //   let reverseToggle = JSON.parse(localStorage.getItem("reverse"));
-  //   let lastImgToggle = JSON.parse(localStorage.getItem("last-img"));
-  //   let shuffleSectionsToggle = JSON.parse(
-  //     localStorage.getItem("shuffle-section")
-  //   );
-  //   let shuffleResultsToggle = JSON.parse(
-  //     localStorage.getItem("shuffle-results")
-  //   );
-  //   if (slideToggle) setSlide(slideToggle);
-  //   if (reverseToggle) setReverseOrder(reverseToggle);
-  //   if (lastImgToggle) setLastImg(lastImgToggle);
-  //   if (shuffleResultsToggle) setShuffleSearchResults(shuffleResultsToggle);
-  //   if (shuffleSectionsToggle) setShuffleSection(shuffleSectionsToggle);
-  // }, []);
-  // async function wait(time) {
-  // await new Promise((resolve, reject) => {
-  // setTimeout(resolve, time);
-  // });
 
-  // console.log(`slide: ${slideToggle} ${slide}`);
-  // }
-  // wait(1);
-  // console.log(" toggles loaded");
-  // let toggles = JSON.parse(localStorage.getItem("toggles"));
-  // if (toggles?.slide) setSlide(toggles.slide);
-  // if (toggles?.reverse) setReverseOrder(toggles.reverse);
-  // if (toggles?.lastImg) setReverseOrder(toggles.lastImg);
-
-  // axios
-  //   .get(`${import.meta.env.VITE_SERVER}/status`, { withCredentials: true })
-  //   .then((res) => {
-  //     console.log(res.data);
-  //     if (res.data.status) {
-  //       setLogin(true);
-  //       setTimeOut(res.data.timeOut);
-  //     }
-  //   });
-
+  function checkLoginStatus() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/signin");
+      return;
+    }
+    axios
+      .get(`${import.meta.env.VITE_SERVER}/auth/status`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data?.status) {
+          setSignin(true);
+          navigate("/x");
+        } else if (res.data?.verified == false) {
+          navigate("/verify");
+        }
+      });
+  }
   const handlePass = (e) => {
     e.preventDefault();
     axios
@@ -237,6 +225,8 @@ export default function DataProvider({ children }) {
         setFromDb,
         setShowBars,
         profiles,
+        signin,
+        setSignin,
       }}
     >
       {children}

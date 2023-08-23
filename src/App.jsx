@@ -11,6 +11,10 @@ import Shared from "./pages/Shared";
 import LargeCarousel from "./components/LargeCarousel";
 import Clear from "./pages/Clear";
 import Profile from "./pages/Profile";
+import Sigin from "./pages/Sigin";
+import Signup from "./pages/Signup";
+import Verify from "./pages/Verify";
+import Verification from "./pages/Verification";
 
 function App() {
   return (
@@ -27,6 +31,10 @@ function App() {
       <Route path="/" element={<X />} />
       <Route path="/large/:id" element={<LargeCarousel />} />
       <Route path="/clear" element={<Clear />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/signin" element={<Sigin />} />
+      <Route path="/verify" element={<Verify />} />
+      <Route path="/verification/:id" element={<Verification />} />
       <Route path="/profile/:name" element={<Profile />} />
     </Routes>
   );

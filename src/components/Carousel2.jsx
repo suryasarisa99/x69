@@ -10,7 +10,7 @@ export default function Carousel({
   onSwipe,
   onShare,
   id,
-  type,
+  type_,
   showSuggestions,
   removeCarouselFromSaved,
 }) {
@@ -39,7 +39,7 @@ export default function Carousel({
     setIsSaved(false);
     saved.splice(saved.indexOf(id), 1);
     setSaved([...saved]);
-    if (type == "saved") removeCarouselFromSaved(id);
+    if (type_ == "saved") removeCarouselFromSaved(id);
   };
   //   let calc = `calc(${pos}px + -${selected}00%)`;
 

@@ -14,13 +14,19 @@ import SideNav from "../components/SideNav";
 import Profiles from "./Profiles";
 export default function X() {
   const navigate = useNavigate();
-  const { showBars, setShowBars } = useContext(DataContext);
+  const { showBars, setShowBars, signin } = useContext(DataContext);
   const { suggestions, setShowSuggestions } = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     setShowBars(true);
   }, [location.pathname]);
+
+  if (!signin) navigate("/signin");
+
+  // useEffect(() => {
+  //   if (!signin) return null;
+  // }, [signin]);
 
   let searchType = "";
   switch (location.pathname) {
@@ -41,7 +47,7 @@ export default function X() {
 
   return (
     <div className="x">
-      {showBars && <SearchBar type={searchType} />}
+      {showBars && <SearchBar type_={searchType} />}
       <Routes>
         <Route path="*" element={<Home setShowBars={setShowBars} />} />
         <Route path="/videos" element={<Videos setShowBars={setShowBars} />} />

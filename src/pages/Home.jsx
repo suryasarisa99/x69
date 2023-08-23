@@ -16,19 +16,9 @@ export default function Home({ setShowBars }) {
     carouselsLoaded,
     dispatchLoaded,
     swipeOnLast: 3,
-    type: "home",
+    type_: "home",
     total: savedData.length,
   };
-
-  useEffect(() => {
-    // async function wait(time) {
-    // setFinalData([]);
-    // await new Promise((res, rej) => setTimeout(res, time));
-    // setFinalData(data);
-    // setFinalData(shuffleSection ? shuffleArray([...savedData]) : savedData);
-    // }
-    // wait(2000);
-  }, []);
 
   return (
     <div>
@@ -38,7 +28,7 @@ export default function Home({ setShowBars }) {
         data={data}
         setData={setFinalData}
         howToLoadData={howToLoadData}
-        type="home"
+        type_="home"
       />
       {/* )} */}
     </div>

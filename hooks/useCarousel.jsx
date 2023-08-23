@@ -7,7 +7,7 @@ export default function useCarousel({
   swipeOnLast = 2,
   carouselsLoaded,
   dispatchLoaded,
-  type,
+  type_,
   total: t,
 }) {
   // const [carouselsLoaded, dispatchLoaded] = useContext(DataContext);
@@ -15,12 +15,12 @@ export default function useCarousel({
   const [total, setTotal] = useState(t || 0);
   const handleCarouselSwipe = (currentIndex) => {
     if (
-      carouselsLoaded[type] - 1 - currentIndex < swipeOnLast &&
-      carouselsLoaded[type] < total
+      carouselsLoaded[type_] - 1 - currentIndex < swipeOnLast &&
+      carouselsLoaded[type_] < total
     ) {
-      const newLoadedCarousels = Math.min(carouselsLoaded[type] + load, total);
+      const newLoadedCarousels = Math.min(carouselsLoaded[type_] + load, total);
       // setLoadedCarousels(newLoadedCarousels);
-      dispatchLoaded({ type, payload: newLoadedCarousels });
+      dispatchLoaded({ type: type_, payload: newLoadedCarousels });
     }
   };
 

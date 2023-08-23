@@ -28,7 +28,7 @@ export default function Search() {
   // const { handleCarouselSwipe, setTotal } = useCarousel();
   const howToLoadData = {
     total: filteredData.length,
-    type: "search",
+    type_: "search",
     load: selected == "videos" ? 2 : 4,
     dispatchLoaded,
     carouselsLoaded,

@@ -7,9 +7,8 @@ export default function Saved({ setShowBars }) {
   const [finalData, setFinalData] = useState([]);
 
   const howToLoadData = {
-    initial: 5,
     load: 4,
-    type: "saved",
+    type_: "saved",
     carouselsLoaded,
     dispatchLoaded,
     swipeOnLast: 3,
@@ -30,7 +29,7 @@ export default function Saved({ setShowBars }) {
         setShowBars={setShowBars}
         data={finalData}
         howToLoadData={howToLoadData}
-        type="saved"
+        type_="saved"
       />
     </div>
   );

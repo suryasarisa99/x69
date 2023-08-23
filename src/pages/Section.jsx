@@ -20,7 +20,7 @@ export default function Section({
   data,
   setData,
   howToLoadData,
-  type,
+  type_,
   setMiniSearchBar,
 }) {
   howToLoadData.total = data.length;
@@ -55,7 +55,10 @@ export default function Section({
   };
   const removeOverlay = (e) => {
     console.log(e);
-    if (!document.querySelector(".suggestions").contains(e.target)) {
+    if (
+      !document.querySelector(".suggestions")?.contains(e.target) &&
+      !document.querySelector(".share")?.contains(e.target)
+    ) {
       setShare(false);
       setSuggestions(false);
       document.getElementById("overlay").classList.add("hidden");
@@ -111,13 +114,13 @@ export default function Section({
     setShowBars(true);
     setMiniSearchBar?.(true);
     async function wait() {
-      // console.log(`scrolled to: ${scrollPos[type]}`);
+      // console.log(`scrolled to: ${scrollPos[type_]}`);
       if (sectionCopy) {
         await new Promise((res, rej) => {
-          // console.log(`scrollled to: ${scrollPos[type]}`);
+          // console.log(`scrollled to: ${scrollPos[type_]}`);
           setTimeout(() => {
             sectionRef.current.scrollTo({
-              top: scrollPos[type],
+              top: scrollPos[type_],
               behavior: "instant",
             });
             res();
@@ -137,14 +140,14 @@ export default function Section({
     return () => {
       cleanupRef.current(); // Call the cleanup function
     };
-  }, [persistantScroll, scrollPos, type]);
+  }, [persistantScroll, scrollPos, type_]);
   // useEffect(() => {
   //   async function wait() {
   //     await new Promise((res, rej) => {
-  //       console.log(`scrollled to: ${scrollPos[type]}`);
+  //       console.log(`scrollled to: ${scrollPos[type_]}`);
   //       setTimeout(() => {
   //         sectionRef.current.scrollTo({
-  //           top: scrollPos[type],
+  //           top: scrollPos[type_],
   //           behavior: "instant",
   //         });
   //         res();
@@ -170,6 +173,7 @@ export default function Section({
     //   .querySelector(".section .section-carousels")
     //   .addEventListener("scroll", removeOverlay);
     return () => {
+      // dispatch({ type_, payload: SectionCopy.scrollTop });
       document
         .getElementById("overlay")
         .removeEventListener("click", removeOverlay);
@@ -179,17 +183,33 @@ export default function Section({
     };
   }, []);
 
+  useEffect(() => {
+    // const SectionCopy = sectionRef.current;
+    // console.log(SectionCopy);
+    // const handleScroll = () => {
+    //   console.log(`scroll value: ${SectionCopy.scrollTop}`);
+    // };
+    // SectionCopy.addEventListener("scroll", handleScroll);
+    // return () => {
+    //   console.log(" clean up function -> exiting");
+    //   console.log(`scroll value: ${SectionCopy.scrollTop}`);
+    //   setTimeout(() => {
+    //     console.log(`scroll value: ${SectionCopy.scrollTop}`);
+    //   }, 10);
+    // };
+  }, []);
+
   return (
     <div className="x section">
-      {/* <p>loaded carousels: {carouselsLoaded[type]}</p> */}
+      {/* <p>loaded carousels: {carouselsLoaded[type_]}</p> */}
       <div className="section-carousels" ref={sectionRef}>
         {data
-          .slice(0, carouselsLoaded[type])
+          .slice(0, carouselsLoaded[type_])
           .map((item, index) =>
             isCarousel2 ? (
               <Carousel2
                 key={index}
-                type={type}
+                type_={type_}
                 onShare={showShare}
                 showSuggestions={showSuggestions}
                 id={item._id}
@@ -201,7 +221,7 @@ export default function Section({
             ) : (
               <Carousel1
                 key={index}
-                type={type}
+                type_={type_}
                 onShare={showShare}
                 id={item._id}
                 images={item?.images}
@@ -215,7 +235,7 @@ export default function Section({
       {share &&
         createPortal(
           <Share
-            onClose={removeOverlay}
+            forceClose={foreCloseOverlay}
             id={shareIdRef.current.id}
             title={shareIdRef.current.name}
           />,

@@ -3,7 +3,12 @@ import { DataContext } from "../context/DataContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { BsGear, BsGearFill, BsPlayBtn, BsPlayBtnFill } from "react-icons/bs";
-import { AiFillHome, AiOutlineHome } from "react-icons/ai";
+import {
+  AiFillHome,
+  AiOutlineHome,
+  AiOutlineFire,
+  AiFillFire,
+} from "react-icons/ai";
 
 export default function SideNav() {
   const { scrollPos, dispatch } = useContext(DataContext);
@@ -38,6 +43,7 @@ export default function SideNav() {
     saveScrollPos();
     navigate("/x/home");
   }
+
   function goSaved() {
     saveScrollPos();
     navigate("/x/saved");
@@ -50,6 +56,10 @@ export default function SideNav() {
     saveScrollPos();
     navigate("/x/settings");
   }
+  function goProfiles() {
+    saveScrollPos();
+    navigate("/x/profiles");
+  }
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
@@ -60,6 +70,7 @@ export default function SideNav() {
   const Videos = location.pathname == "/x/videos" ? BsPlayBtnFill : BsPlayBtn;
   const Saved = location.pathname == "/x/saved" ? FaBookmark : FaRegBookmark;
   const Settings = location.pathname == "/x/settings" ? BsGearFill : BsGear;
+  const Fire = location.pathname == "/x/profiles" ? AiFillFire : AiOutlineFire;
 
   return (
     <div className="side-nav">
@@ -67,6 +78,9 @@ export default function SideNav() {
       <div className="icons">
         <button onClick={goHome}>
           <Home className="icon" />
+        </button>
+        <button onClick={goProfiles}>
+          <Fire className="icon" />
         </button>
         <button onClick={goVideos}>
           <Videos className="icon" />

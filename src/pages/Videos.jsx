@@ -16,7 +16,7 @@ export default function Videos({ setShowBars }) {
     carouselsLoaded,
     dispatchLoaded,
     swipeOnLast: 2,
-    type: "videos",
+    type_: "videos",
     total: 20,
   };
 
@@ -38,7 +38,7 @@ export default function Videos({ setShowBars }) {
         data={data.filter((item) => item.images[0].endsWith(".gif"))}
         setData={setFinalData}
         howToLoadData={howToLoadData}
-        type="videos"
+        type_="videos"
       />
       {/* )} */}
     </div>

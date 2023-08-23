@@ -10,6 +10,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [profileData, setProfileData] = useState([]);
+
   useEffect(() => {
     const fData = data.filter((item) => item?.name == name);
     const pic = fData?.[Math.floor(Math.random() * fData.length)]?.images[0];
@@ -24,7 +25,7 @@ export default function Profile() {
     carouselsLoaded,
     dispatchLoaded,
     swipeOnLast: 3,
-    type: "profile",
+    _: "profile",
     total: profileData.length,
   };
 
@@ -57,7 +58,7 @@ export default function Profile() {
       <Section
         data={profileData}
         howToLoadData={howToLoadData}
-        type="profile"
+        type_="profile"
       />
     </div>
   );

@@ -7,7 +7,7 @@ import {
 
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
-const ShareButtons = ({ id, title = "Image", onClose }) => {
+const ShareButtons = ({ id, title = "Image", onClose, forceClose }) => {
   //   let url = `http://192.168.0.169:4444/shared/${id}`;
   let url = `https://x69.vercel.app/shared/${id}`;
 
@@ -15,7 +15,13 @@ const ShareButtons = ({ id, title = "Image", onClose }) => {
     <div className="share">
       <div className="head">
         <h2>Share this: Image</h2>
-        <AiOutlineCloseCircle className="icon" onClick={onClose} />
+        <AiOutlineCloseCircle
+          className="icon"
+          onClick={(e) => {
+            e.preventDefault();
+            forceClose(e);
+          }}
+        />
       </div>
       <div className="items">
         <div>

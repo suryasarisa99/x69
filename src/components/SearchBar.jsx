@@ -2,28 +2,30 @@ import { useEffect, useContext, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 import SearchResults from "./SearchResults";
-export default function SearchBar({ type }) {
+export default function SearchBar({ type_ }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [showResults, setShowResults] = useState(false);
   const [query, setQuery] = useState("");
   const { scrollPos, dispatch } = useContext(DataContext);
   useEffect(() => {}, [location.pathname]);
-  if (type == "none") return null;
+  if (type_ == "none") return null;
 
   function handleSearch(e) {
     e?.preventDefault();
     const sec = document.querySelector(".section-carousels");
-    if (type == "saved") dispatch({ type, payload: sec.scrollTop });
-    else if (type == "home") dispatch({ type, payload: sec?.scrollTop });
-    navigate(`/search/${type}/${query}`);
+    if (type_ == "saved") dispatch({ type: type_, payload: sec.scrollTop });
+    else if (type_ == "home")
+      dispatch({ type: type_, payload: sec?.scrollTop });
+    navigate(`/search/${type_}/${query}`);
   }
   function handleSearch2(result) {
     // e?.preventDefault();
     const sec = document.querySelector(".section-carousels");
-    if (type == "saved") dispatch({ type, payload: sec.scrollTop });
-    else if (type == "home") dispatch({ type, payload: sec?.scrollTop });
-    navigate(`/search/${type}/${result}`);
+    if (type_ == "saved") dispatch({ type: type_, payload: sec.scrollTop });
+    else if (type_ == "home")
+      dispatch({ type: type_, payload: sec?.scrollTop });
+    navigate(`/search/${type_}/${result}`);
   }
   return (
     <div>
