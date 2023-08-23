@@ -81,17 +81,13 @@ export default function Signup() {
     if (noError) {
       console.log("no Error");
       axios
-        .post(
-          `${import.meta.env.VITE_SERVER}/auth/signup`,
-          {
-            fname: e.target.fname.value,
-            sname: e.target.sname.value,
-            username: e.target.id.value,
-            password: e.target.password.value,
-            email: e.target.email.value,
-          },
-          { withCredentials: true }
-        )
+        .post(`${import.meta.env.VITE_SERVER}/auth/signup`, {
+          fname: e.target.fname.value,
+          sname: e.target.sname.value,
+          username: e.target.id.value,
+          password: e.target.password.value,
+          email: e.target.email.value,
+        })
         .then((res) => {
           console.log(res.data);
           if (!res.data.status) {

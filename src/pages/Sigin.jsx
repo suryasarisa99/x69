@@ -17,20 +17,12 @@ export default function Sigin() {
   const handleSignIn = (e) => {
     e.preventDefault();
     axios
-      .post(
-        `${import.meta.env.VITE_SERVER}/auth/signin`,
-        {
-          username: e.target.id.value,
-          password: e.target.password.value,
-        },
-        { withCredentials: true }
-      )
+      .post(`${import.meta.env.VITE_SERVER}/auth/signin`, {
+        username: e.target.id.value,
+        password: e.target.password.value,
+      })
       .then((res) => {
         console.log(res.data);
-        // if (res.data?.mssg === "incorrectPassword") {
-        //   //
-        // } else if (res.data?.mssg === "noUserFound") {
-        //   //
         if (!res.data.status) {
           //
         } else {

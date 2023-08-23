@@ -162,13 +162,9 @@ export default function DataProvider({ children }) {
   const handleTempPass = (e) => {
     e.preventDefault();
     axios
-      .post(
-        `${import.meta.env.VITE_SERVER}/temp-login`,
-        {
-          pass: e.target.pass.value,
-        },
-        { withCredentials: true }
-      )
+      .post(`${import.meta.env.VITE_SERVER}/temp-login`, {
+        pass: e.target.pass.value,
+      })
       .then((res) => {
         console.log(res.data);
         if (res.data.status) {
