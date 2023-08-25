@@ -138,7 +138,7 @@ export default function Search() {
       <Section
         data={filteredData}
         howToLoadData={howToLoadData}
-        type="search"
+        type_="search"
         setMiniSearchBar={setShowBars}
       />
     </div>
