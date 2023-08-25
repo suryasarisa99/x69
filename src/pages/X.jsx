@@ -22,7 +22,7 @@ export default function X() {
     setShowBars(true);
   }, [location.pathname]);
 
-  if (!signin) navigate("/signin");
+  // if (!signin) navigate("/signin");
 
   // useEffect(() => {
   //   if (!signin) return null;

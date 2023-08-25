@@ -81,21 +81,27 @@ export default function DataProvider({ children }) {
   useEffect(() => {
     // navigate("/signin");
     checkLoginStatus();
-    if (fromDb) {
-      // axios
-      //   .get(`${import.meta.env.VITE_SERVER}/data`, { withCredentials: true })
-      //   .then((res) => {
-      //     console.log(res);
-      //     setData((prv) =>
-      //       shuffleSection ? shuffleArray(res.data) : res.data
-      //     );
-      //   });
-    } else setData(shuffleSection ? shuffleArray(datax) : datax);
-    accFuseRef.current = new Fuse(actress, {
-      keys: ["name"],
-      threshold: 0.4,
-    });
   }, []);
+
+  useEffect(() => {
+    console.log(`Signin: ${signin}`);
+    if (signin) {
+      if (fromDb) {
+        // axios
+        //   .get(`${import.meta.env.VITE_SERVER}/data`, { withCredentials: true })
+        //   .then((res) => {
+        //     console.log(res);
+        //     setData((prv) =>
+        //       shuffleSection ? shuffleArray(res.data) : res.data
+        //     );
+        //   });
+      } else setData(shuffleSection ? shuffleArray(datax) : datax);
+      accFuseRef.current = new Fuse(actress, {
+        keys: ["name"],
+        threshold: 0.4,
+      });
+    }
+  }, [signin]);
 
   useEffect(() => {
     if (data.length > 0)
@@ -118,6 +124,7 @@ export default function DataProvider({ children }) {
 
   function checkLoginStatus() {
     const token = localStorage.getItem("token");
+    console.log(token);
     if (!token) {
       navigate("/signin");
       return;
@@ -132,7 +139,7 @@ export default function DataProvider({ children }) {
         console.log(res.data);
         if (res.data?.status) {
           setSignin(true);
-          navigate("/x");
+          // navigate("/x");
         } else if (res.data?.verified == false) {
           navigate("/verify");
         }
