@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Section from "./Section";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
+import axios from "axios";
 
 export default function Profile() {
   const { name } = useParams();
@@ -13,12 +14,18 @@ export default function Profile() {
   const [profileData, setProfileData] = useState([]);
 
   useEffect(() => {
-    const fData = data.filter((item) => item?.name == name);
-    const pic = fData?.[Math.floor(Math.random() * fData.length)]?.images[0];
-    setProfilePhoto(pic);
-    setProfileData(fData);
+    async function fetchData() {
+      const fData = (
+        await axios.get(`${import.meta.env.VITE_SERVER}/data/search/${name}`)
+      ).data;
+      console.log(fData);
+      const pic = fData?.[Math.floor(Math.random() * fData.length)]?.images[0];
+      setProfilePhoto(pic);
+      setProfileData(fData);
+    }
+    fetchData();
     dispatchLoaded({ type: "profile", payload: 2 });
-  }, [name, data]);
+  }, [name]);
 
   const howToLoadData = {
     initial: carouselsLoaded.profile || 3,

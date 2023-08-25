@@ -5,7 +5,8 @@ import Section from "./Section";
 import Suggest from "../components/Suggest";
 
 export default function Home({ setShowBars }) {
-  const { data, carouselsLoaded, dispatchLoaded } = useContext(DataContext);
+  const { data, setData, carouselsLoaded, dispatchLoaded } =
+    useContext(DataContext);
   const [finalData, setFinalData] = useState([]);
   const navigate = useNavigate();
   let savedData = data;
@@ -26,7 +27,7 @@ export default function Home({ setShowBars }) {
       <Section
         setShowBars={setShowBars}
         data={data}
-        setData={setFinalData}
+        setData={setData}
         howToLoadData={howToLoadData}
         type_="home"
       />

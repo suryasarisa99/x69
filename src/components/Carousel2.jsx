@@ -13,6 +13,7 @@ export default function Carousel({
   type_,
   showSuggestions,
   removeCarouselFromSaved,
+  fetchImages,
 }) {
   const { slide, lastImg, reverseOrder, saved, setSaved } =
     useContext(DataContext);

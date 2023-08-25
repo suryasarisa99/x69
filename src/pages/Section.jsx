@@ -202,35 +202,59 @@ export default function Section({
   return (
     <div className="x section">
       {/* <p>loaded carousels: {carouselsLoaded[type_]}</p> */}
+      <p>{data.length}</p>
       <div className="section-carousels" ref={sectionRef}>
-        {data
-          .slice(0, carouselsLoaded[type_])
-          .map((item, index) =>
-            isCarousel2 ? (
-              <Carousel2
-                key={index}
-                type_={type_}
-                onShare={showShare}
-                showSuggestions={showSuggestions}
-                id={item._id}
-                images={item?.images}
-                title={item?.title}
-                name={item?.name}
-                onSwipe={() => handleCarouselSwipe(index)}
-              />
-            ) : (
-              <Carousel1
-                key={index}
-                type_={type_}
-                onShare={showShare}
-                id={item._id}
-                images={item?.images}
-                name={item?.name}
-                title={item?.title}
-                onSwipe={() => handleCarouselSwipe(index)}
-              />
-            )
-          )}
+        {data.slice(0, carouselsLoaded[type_]).map((item, index) =>
+          isCarousel2 ? (
+            <Carousel2
+              key={index}
+              type_={type_}
+              onShare={showShare}
+              showSuggestions={showSuggestions}
+              id={item._id}
+              images={item?.images}
+              title={item?.title}
+              name={item?.name}
+              onSwipe={() => {
+                handleCarouselSwipe(index);
+                console.log(
+                  `conditon: ${type_ != "home" || data.length - 1 - index > 8}`
+                );
+                console.log(
+                  `${data.length - 1} - ${index} = ${data.length - 1 - index} `
+                );
+
+                if (type_ != "home" || data.length - 1 - index > 8) return;
+                console.log("<== Data is ADDEd ==>");
+                axios.get(`${import.meta.env.VITE_SERVER}/data`).then((res) => {
+                  console.log(res.data);
+                  setData((prvData) => [...prvData, ...res.data.data]);
+                });
+              }}
+            />
+          ) : (
+            <Carousel1
+              key={index}
+              type_={type_}
+              onShare={showShare}
+              id={item._id}
+              images={item?.images}
+              name={item?.name}
+              title={item?.title}
+              onSwipe={() => {
+                handleCarouselSwipe(index);
+                console.log(
+                  `conditon: ${type_ != "home" || data.length - 1 - index > 8}`
+                );
+                if (type_ != "home" || data.length - 1 - index > 8) return;
+                console.log("<== Data is ADDEd ==>");
+                axios
+                  .get(`${import.meta.evn.VITE_SERVER}/data`)
+                  .then((res) => setData((prvData) => [...prvData, res.data]));
+              }}
+            />
+          )
+        )}
       </div>
       {share &&
         createPortal(

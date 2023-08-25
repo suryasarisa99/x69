@@ -49,7 +49,7 @@ export default function DataProvider({ children }) {
     toggles?.carousel2 !== undefined ? toggles.carousel2 : true
   );
   let [fromDb, setFromDb] = useState(
-    toggles?.fromDb !== undefined ? toggles.fromDb : false
+    toggles?.fromDb !== undefined ? toggles.fromDb : true
   );
   const [data, setData] = useState([]);
   // let [finalData, setFinalData] = useState(
@@ -83,18 +83,16 @@ export default function DataProvider({ children }) {
     checkLoginStatus();
   }, []);
 
+  // Load data from Db
   useEffect(() => {
     console.log(`Signin: ${signin}`);
     if (signin) {
       if (fromDb) {
-        // axios
-        //   .get(`${import.meta.env.VITE_SERVER}/data`, { withCredentials: true })
-        //   .then((res) => {
-        //     console.log(res);
-        //     setData((prv) =>
-        //       shuffleSection ? shuffleArray(res.data) : res.data
-        //     );
-        //   });
+        // axios.get(`${import.meta.env.VITE_SERVER}/data`).then((res) => {
+        //   setData((prv) =>
+        //     shuffleSection ? shuffleArray(res.data) : res.data
+        //   );
+        // });
       } else setData(shuffleSection ? shuffleArray(datax) : datax);
       accFuseRef.current = new Fuse(actress, {
         keys: ["name"],
@@ -103,22 +101,12 @@ export default function DataProvider({ children }) {
     }
   }, [signin]);
 
-  useEffect(() => {
-    if (data.length > 0)
-      data
-        .filter((item) => item.name)
-        .forEach((item) => {
-          let accItem = actress.find((acc) => acc.name == item.name);
-          if (accItem) {
-            if (accItem.count == undefined) {
-              accItem.count = 1;
-            } else accItem.count += 1;
-          }
-        });
-    setProfiles(
-      actress.filter((item) => item.count > 0).sort((a, b) => b.count - a.count)
-    );
-  }, [data]);
+  //  For Profiles
+  // useEffect(() => {
+  //   setProfiles(
+  //     actress.filter((item) => item.count > 0).sort((a, b) => b.count - a.count)
+  //   );
+  // }, [data]);
 
   const navigate = useNavigate();
 
@@ -139,6 +127,8 @@ export default function DataProvider({ children }) {
         console.log(res.data);
         if (res.data?.status) {
           setSignin(true);
+          setData(res.data.data);
+          setProfiles(res.data.profiles);
           // navigate("/x");
         } else if (res.data?.verified == false) {
           navigate("/verify");

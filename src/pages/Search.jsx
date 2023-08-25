@@ -10,6 +10,7 @@ import useCarousel from "../../hooks/useCarousel";
 import Section from "./Section";
 import SearchResults from "../components/SearchResults";
 import Fuse from "fuse.js";
+import axios from "axios";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -84,10 +85,13 @@ export default function Search() {
       //   item?.title?.toLowerCase()?.includes(query.toLowerCase())
       // );
 
-      let fdata = fuse.current.search(query).map((item) => item.item);
-      setFilterData(shuffleSearchResults ? shuffleArray(fdata) : fdata);
-      // setTotal(fdata.length);
-      console.log(fdata);
+      // let fdata = fuse.current.search(query).map((item) => item.item);
+      // setFilterData(shuffleSearchResults ? shuffleArray(fdata) : fdata);
+
+      axios
+        .get(`${import.meta.env.VITE_SERVER}/data/search/${finalQuery}`)
+        .then((res) => setFilterData(res.data));
+      // console.log(fdata);
     }
     if (query != "") wait(0.1);
   }, [finalQuery]);
