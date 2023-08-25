@@ -25,8 +25,8 @@ export default function Profile() {
     load: 3,
     carouselsLoaded,
     dispatchLoaded,
-    swipeOnLast: 3,
-    _: "profile",
+    swipeOnLast: 2,
+    type_: "profile",
     total: profileData.length,
   };
 
