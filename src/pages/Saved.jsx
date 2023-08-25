@@ -20,8 +20,8 @@ export default function Saved({ setShowBars }) {
       let savedData = data.filter((d) => saved.includes(d._id));
       setFinalData(shuffleSaved ? shuffleArray(savedData) : savedData);
     }
-    wait(400);
-  }, [data, saved, shuffleSaved]);
+    wait(10);
+  }, [data, shuffleSaved]);
 
   return (
     <div>
